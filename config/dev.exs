@@ -49,7 +49,8 @@ config :pavonz, PavonzWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"lib/pavonz_web/(live|views)/.*(ex)$",
-      ~r"lib/pavonz_web/templates/.*(eex)$"
+      ~r"lib/pavonz_web/templates/.*(eex)$",
+      ~r"posts/*/.*(md)$"
     ]
   ]
 
