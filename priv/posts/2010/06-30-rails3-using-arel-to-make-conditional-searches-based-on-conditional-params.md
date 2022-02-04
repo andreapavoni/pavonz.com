@@ -68,7 +68,3 @@ Probably it’s not the best solution, perhaps this could be optimized with some
 
 - [Greg Pollack: Rails 3 Beautiful Code](http://www.slideshare.net/GreggPollack/rails-3-beautiful-code-3219240)
 - [Ryan Bates: Advanced Queries in Rails 3](http://railscasts.com/episodes/215-advanced-queries-in-rails-3)
-
-### Notes:
-
-This article was initially published on [http://blog.andreapavoni.com/post/758178172/rails3-using-arel-to-make-conditional-searches-based](http://blog.andreapavoni.com/post/758178172/rails3-using-arel-to-make-conditional-searches-based).

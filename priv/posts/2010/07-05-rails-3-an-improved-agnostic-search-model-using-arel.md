@@ -2,7 +2,7 @@
 title: "Rails 3: An improved agnostic search model using Arel",
 author: "Andrea Pavoni",
 tags: ~w(rails ruby arel active_record),
-description: "In the [last post](http://andreapavoni.com/blog/2010/7/rails3-using-arel-to-make-conditional-searches-based-on-conditional-params), I explained how to make conditional searches based on conditional params. I wrote a very simple Search class that returns a real model with query done by Arel. I refactored the code to make it simpler to use."
+description: "In the [last post](/blog/rails3-using-arel-to-make-conditional-searches-based-on-conditional-params), I explained how to make conditional searches based on conditional params. I wrote a very simple Search class that returns a real model with query done by Arel. I refactored the code to make it simpler to use."
 }
 
 ---
@@ -76,7 +76,3 @@ end
 ```
 
 When `Search#result` is called a model instance is returned, it can still be ordered. According to [Arel's README](http://github.com/rails/arel#readme), there’s no support for _OR_ conditions yet, I hope it will be included soon.
-
-### Notes:
-
-This article was initially published on [http://blog.andreapavoni.com/post/776670218/rails-3-an-improved-agnostic-search-model-using-arel](http://blog.andreapavoni.com/post/776670218/rails-3-an-improved-agnostic-search-model-using-arel)

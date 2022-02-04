@@ -27,7 +27,7 @@ It does a good job:
 
 The last point is a _plus_, kindly offered by Rails' ActiveSupport library, I prefer Symbol over String for Hash keys.
 
-## The problem
+### The problem
 
 However, I knew that there's a smarter way to achieve same goal, even with some more adavantages. I started from [OpenStruct](http://www.ruby-doc.org/stdlib-2.0/libdoc/ostruct/rdoc/OpenStruct.html):
 
@@ -58,7 +58,7 @@ mystruct.a.b # => NoMethodError: undefined method 'b' for {:b=>1}:Hash
 
 Moreover, there's no way to access the original hash (well, there's one but that's another point), it might be useful when you need to pass an entire Hash.
 
-## A solution
+### A solution
 
 `OpenStruct` already does a great part fo the _dirty job_, it only needs some change to get what we need. I called it, `DeepStruct`:
 
@@ -106,7 +106,7 @@ mystruct.a.b # => 1
 mystruct.a.to_h # => {b: 1}
 ```
 
-## Conclusion
+### Conclusion
 
 I've said I'd mainly use this to store configs for my apps, so go back to the initial example:
 
