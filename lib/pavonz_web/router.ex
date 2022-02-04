@@ -16,6 +16,7 @@ defmodule PavonzWeb.Router do
     get "/", PageController, :index
 
     get "/blog", BlogController, :index
+    get "/blog/tag/:tag", BlogController, :index
     get "/blog/:id", BlogController, :show
   end
 end

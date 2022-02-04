@@ -1,19 +1,16 @@
-<h1>Listing all posts</h1>
+<section>
+  <%= for post <- @posts do %>
+	  <article id="<%= post.id %>" style="margin-bottom: 3rem;">
+      <header>
+        <small><time><%= post.date %></time></small> ~ <%= Enum.join(post.tags, ", ") %>
+        <h2><%= link post.title, to: Routes.blog_path(@conn, :show, post)%></h2>
+      </header>
 
-<%= for post <- @posts do %>
-  <div id="<%= post.id %>" style="margin-bottom: 3rem;">
-    <h2>
-      <%= link post.title, to: Routes.blog_path(@conn, :show, post)%>
-    </h2>
+      <p><%= raw post.description %></p>
 
-    <p>
-      <time><%= post.date %></time> by <%= post.author %>
-    </p>
+      <footer>
 
-    <p>
-      Tagged as <%= Enum.join(post.tags, ", ") %>
-    </p>
-
-    <%= raw post.description %>
-  </div>
-<% end %>
+      </footer>
+	  </article>
+  <% end %>
+</section>
