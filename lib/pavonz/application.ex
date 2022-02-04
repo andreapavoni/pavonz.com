@@ -12,6 +12,7 @@ defmodule Pavonz.Application do
       PavonzWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Pavonz.PubSub},
+      {ConCache, [name: :app_cache, ttl_check_interval: false]},
       # Start the Endpoint (http/https)
       PavonzWeb.Endpoint
       # Start a worker by calling: Pavonz.Worker.start_link(arg)

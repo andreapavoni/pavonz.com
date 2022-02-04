@@ -23,6 +23,8 @@ defmodule PavonzWeb do
 
       import Plug.Conn
       alias PavonzWeb.Router.Helpers, as: Routes
+
+      import PavonzWeb.Plug.ResponseCache, only: [cache_public: 1, cache_public: 2]
     end
   end
 

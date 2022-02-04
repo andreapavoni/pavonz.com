@@ -3,15 +3,25 @@ defmodule PavonzWeb.BlogController do
 
   alias Pavonz.Blog
 
+  plug PavonzWeb.Plug.ResponseCache
+  # 6 months caching should be enough for a static website
+  @cache_ttl :timer.hours(24 * 180)
+
   def index(conn, %{"tag" => tag}) do
-    render(conn, "index.html", posts: Blog.get_posts_by_tag!(tag))
+    conn
+    |> cache_public(@cache_ttl)
+    |> render("index.html", posts: Blog.get_posts_by_tag!(tag))
   end
 
   def index(conn, _params) do
-    render(conn, "index.html", posts: Blog.all_posts())
+    conn
+    |> cache_public(@cache_ttl)
+    |> render("index.html", posts: Blog.all_posts())
   end
 
   def show(conn, %{"id" => id}) do
-    render(conn, "show.html", post: Blog.get_post_by_id!(id))
+    conn
+    |> cache_public(@cache_ttl)
+    |> render("show.html", post: Blog.get_post_by_id!(id))
   end
 end
