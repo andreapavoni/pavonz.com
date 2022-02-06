@@ -8,6 +8,10 @@ defmodule PavonzWeb.Router do
     plug :put_root_layout, {PavonzWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+
+    if Mix.env() == :prod do
+      plug PavonzWeb.Plug.ResponseCache
+    end
   end
 
   scope "/", PavonzWeb do

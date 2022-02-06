@@ -9,11 +9,11 @@ description: "During the last months, I was looking for a new programming langua
 
 ### TL;DR
 
-I decided to try Go and I developed a simple web app. There's a [working demo on heroku](http://goshort.herokuapp.com) and source code is available on [github](https://github.com/apeacox/goshort). It was an awesome journey and I'm planning to go further.
+I decided to try Go and I developed a simple web app. There's a [working demo on heroku](http://goshort.herokuapp.com) and source code is available on [github](https://github.com/andreapavoni/goshort). It was an awesome journey and I'm planning to go further.
 
 ### Beyond Hello World
 
-You know, when you learn a new programming language, _Hello World_ is not enough, you always need some known problem to solve, but _known problem_ doesn't mean a boring non-practical algorithm. I decided to port [avarus](https://github.com/apeacox/avarus), a simple Url shortener built with [Cuba](http://cuba.is) ruby microframework and [Redis](http://redis.io). It is a web application, it uses a database and it took a very low amount of code (~150/200 loc). So it's a good candidate to port in Go.
+You know, when you learn a new programming language, _Hello World_ is not enough, you always need some known problem to solve, but _known problem_ doesn't mean a boring non-practical algorithm. I decided to port [avarus](https://github.com/andreapavoni/avarus), a simple Url shortener built with [Cuba](http://cuba.is) ruby microframework and [Redis](http://redis.io). It is a web application, it uses a database and it took a very low amount of code (~150/200 loc). So it's a good candidate to port in Go.
 
 ### First steps
 

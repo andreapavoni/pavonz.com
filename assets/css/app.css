@@ -1,18 +1,41 @@
 /* This file is for your main application CSS */
 @import "./base.css";
 
+@font-face {
+  font-family: "PressStart2P";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SourceCodePro-Italic";
+  src: url("/fonts/SourceCodePro-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 400 900;
+  font-stretch: 75% 125%;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SourceCodePro";
+  src: url("/fonts/SourceCodePro-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
 /* CSS variables */
 :root {
-  --header-font: "Inconsolata", monospace;
-  --accent-color: #ac0c0c;
-  /* --accent-color: #606c76; */
+  --main-font: "SourceCodePro", monospace;
+  --accent-color: #4b0b8e;
   --link-color: var(--accent-color);
-  --link-hover-color: #911868;
+  --link-hover-color: #8942d4;
+  --header-color: #474747;
 }
 
 body {
-  color: #000000;
-  font-family: var(--header-font);
+  color: #383838;
+  background-color: /* #fdf4dc */ #fefbf1;
+  font-family: var(--main-font);
 }
 
 header section {
@@ -25,12 +48,15 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--header-font);
+  font-family: "PressStart2P";
+  /* font-family: var(--main-font); */
   font-weight: bold;
+  color: var(--header-color);
 }
 
 a {
   color: var(--accent-color);
+  border-bottom: dashed 1px var(--accent-color);
 }
 a:focus,
 a:hover {
@@ -41,9 +67,29 @@ pre {
   border-left: 0.3rem solid var(--accent-color);
 }
 
+code.inline {
+  border: solid 1px #696969;
+}
+
+.root h1 a,
+header nav a {
+  font-family: "PressStart2P";
+  border-bottom: none;
+  text-decoration: none;
+}
+
+article header h2 {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+article header a {
+  border-bottom: none;
+}
+
 header,
 footer {
-  font-family: var(--header-font);
+  font-family: var(--main-font);
 }
 
 article {
@@ -54,7 +100,62 @@ article:last-child {
   border-bottom: none;
 }
 
+section article header {
+  font-weight: bold;
+  font-family: "PressStart2P";
+  margin-bottom: 1rem;
+}
+
+section.content article header h2 {
+  border-bottom: none;
+  margin-bottom: 1rem;
+  padding-bottom: 0;
+}
+
+section.content {
+  margin-top: 5rem;
+}
+
+section.content h2 {
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: solid 1px #cecece;
+}
+
+section.content h3 a {
+  border-bottom: none;
+}
+
+header.root {
+  border-bottom: 1px solid #cecece;
+}
+
 footer.root {
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid #cecece;
   color: #696969;
+}
+
+.hearth {
+  color: rgb(199, 5, 5);
+  font-size: 15px;
+  text-transform: none;
+  font-style: normal;
+  display: inline-flex;
+}
+
+.phx-hero {
+  /* border: 1px solid #cecece;
+  background: #fefaee; */
+
+  border: none;
+  background: inherit;
+  /* font-weight: 900; */
+  /* font-size: 300%; */
+}
+
+.phx-hero p {
+  /* text-align: left; */
+  font-family: "PressStart2P";
+  /* font-weight: 400; */
+  /* font-size: 1.7rem; */
 }

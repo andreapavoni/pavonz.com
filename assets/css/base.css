@@ -16,13 +16,6 @@ body {
   line-height: 1.6;
 }
 
-/*@media screen and (prefers-color-scheme: dark) {*/
-/*body {*/
-/*background-color: black;*/
-/*color: white;*/
-/*}*/
-/*}*/
-
 blockquote {
   border-left: 0.3rem solid #d1d1d1;
   margin-left: 0;
