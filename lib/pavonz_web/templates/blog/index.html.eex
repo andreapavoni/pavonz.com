@@ -1,10 +1,11 @@
 <section class="content">
   <%= if @tag do %>
-    <h2>Posts tagged with: <i><%= @tag %></i></h2>
-    <h3><%= link "← All posts", to: Routes.blog_path(@conn, :index)%></h3>
+    <h2>Posts tagged with: <i><%= link @tag, to: Routes.blog_path(@conn, :index, @tag) %></i></h2>
+    <h3><%= link "← All posts", to: Routes.blog_path(@conn, :index) %></h3>
   <% else %>
     <h2>Posts</h2>
   <% end %>
+
   <%= for post <- @posts do %>
 	  <article id="<%= post.id %>" style="margin-bottom: 3rem;">
       <header>
