@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pavonz.com</title>
+    <link rel="stylesheet" href="https://pavonz.com/app.css" />
+  </head>
+  <body>
+    <header class="root">
+      <section class="container">
+        <nav>
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog">blog</a></li>
+          </ul>
+        </nav>
+        <h1><a href="/">~/pavonz</a></h1>
+      </section>
+    </header>
+
+    <main class="container">
+<h1 class="title">Store Rails views on database</h1>
+<p class="subtitle"><strong>2011-06-12</strong></p>
+<p>The ideal way is to store views on a database, indeed there are some CMSs that solve this problem with similar approaches, like <a href="http://radiantcms.org/">Radiant</a> and <a href="http://www.locomotivecms.com/">Locomotive</a>.</p>
+<p>However, I wanted something that let me to reuse this feature on several projects (because a custom CMS may have different features), and to store only certain views, according to specific content and needs.</p>
+<p>So, I’ve developed <a href="https://github.com/andreapavoni/panoramic">Panoramic</a>, a simple gem inspired from some ideas found in José Valim’s excellent book <a href="http://pragprog.com/titles/jvrails/crafting-rails-applications">Crafting Rails Applications</a>. Simply put, once Panoramic is installed, you can store your views on database. It works through an implemetation of <code>ActionView::Resolver</code> class: Rails will lookup views as if they were on filesystem. In controller, you’ll tell where and when to use those views, using <code>prepend_view_path</code> and <code>append_view_path</code> on a controller or action basis (they are both implemented as class and instance methods). Depending from the method you’ll use, Rails will respectively look for views on database, then it will fallback on filesystem, or viceversa. Quite easy, right?</p>
+<p>I’ll not show any code here, because there’s a full explanation on <a href="https://github.com/andreapavoni/panoramic/blob/master/README.md">Panoramic’s README</a>. As a final note, at the moment it works only with ActiveRecord, but I’ve planned to extend support to DataMapper and Mongoid as soon as possible. It’s very easy to implement, the main problem is about testing: maybe I’ll write some rspec’s custom matchers to reuse with different ORMs, like <a href="https://github.com/jnicklas/carrierwave">carrierwave</a>.</p>
+ </main>
+    <footer class="root">
+      <section class="container">
+        <small
+          >built with <i class="hearth">&#10084;</i> by Andrea
+          <i>pavonz</i> Pavoni &copy;2010-2022</small
+        >
+      </section>
+    </footer>
+    <script
+      data-goatcounter="https://pavonz.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </body>
+</html>

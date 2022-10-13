@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pavonz.com</title>
+    <link rel="stylesheet" href="{{ get_url(path='app.css') }}" />
+  </head>
+  <body>
+    <header class="root">
+      <section class="container">
+        <nav>
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog">blog</a></li>
+          </ul>
+        </nav>
+        <h1><a href="/">~/pavonz</a></h1>
+      </section>
+    </header>
+
+    <main class="container">{% block content %} {% endblock %}</main>
+    <footer class="root">
+      <section class="container">
+        <small
+          >built with <i class="hearth">&#10084;</i> by Andrea
+          <i>pavonz</i> Pavoni &copy;2010-2022</small
+        >
+      </section>
+    </footer>
+    <script
+      data-goatcounter="https://pavonz.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </body>
+</html>

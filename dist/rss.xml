@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title></title>
+        <link>https://pavonz.com</link>
+        <description></description>
+        <generator>Zola</generator>
+        <language>en</language>
+        <atom:link href="https://pavonz.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <lastBuildDate>Tue, 20 Aug 2013 00:00:00 +0000</lastBuildDate>
+        <item>
+            <title>A rails 4 tutorial application for beginners</title>
+            <pubDate>Tue, 20 Aug 2013 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/rails-4-tutorial-for-beginners/</link>
+            <guid>https://pavonz.com/blog/rails-4-tutorial-for-beginners/</guid>
+            <description>&lt;h3 id=&quot;intro&quot;&gt;Intro&lt;&#x2F;h3&gt;
+&lt;p&gt;Unless you lived under a rock in the past 5 years or so, you should have already heard of &lt;a href=&quot;http:&#x2F;&#x2F;rubyonrails.org&quot;&gt;Ruby on Rails&lt;&#x2F;a&gt;. In this article, we&#x27;ll write a very simple web application with it to show its power and speed of development.&lt;&#x2F;p&gt;
+&lt;p&gt;We&#x27;ll cover the following topics:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;install Ruby&lt;&#x2F;li&gt;
+&lt;li&gt;install the rails gem&lt;&#x2F;li&gt;
+&lt;li&gt;how to start a new rails project&lt;&#x2F;li&gt;
+&lt;li&gt;directory structure of a rails project&lt;&#x2F;li&gt;
+&lt;li&gt;how to manage data with a database&lt;&#x2F;li&gt;
+&lt;li&gt;use already available components to handle common tasks&lt;&#x2F;li&gt;
+&lt;li&gt;add CRUD resources&lt;&#x2F;li&gt;
+&lt;li&gt;improve the app flawlessy&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;quick-setup&quot;&gt;Quick setup&lt;&#x2F;h3&gt;
+&lt;p&gt;The following section offers a very quick overview of the tools you need to get started with Ruby on Rails development. If you already have a working rails environment, excluding the default ruby installation that some operating systems have, then feel free to skip the steps.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;install-ruby&quot;&gt;Install Ruby&lt;&#x2F;h4&gt;
+&lt;p&gt;If you run Linux or MacOSX on your computer, you may already have Ruby installed by default, however these kind of installations are out of date (eg: ruby 1.8.x) and &lt;em&gt;gems&lt;&#x2F;em&gt; are difficult to manage. The best way is to install it manually or just use some tool that helps to manage custom Ruby installations, even multiple versions (eg: 1.9.x and 2.0.0 releases).&lt;&#x2F;p&gt;
+&lt;p&gt;Instead of repeating what others have already said, I will link some useful guides:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;MacOSX: &lt;a href=&quot;http:&#x2F;&#x2F;createdbypete.com&#x2F;articles&#x2F;ruby-on-rails-development-with-mac-os-x-mountain-lion&#x2F;&quot;&gt;Ruby on Rails development with Mac OS X Mountain Lion&lt;&#x2F;a&gt;. Follow the steps until you reach &lt;em&gt;Install SQLite3&lt;&#x2F;em&gt; section, we&#x27;ll see here how to install rails.&lt;&#x2F;li&gt;
+&lt;li&gt;Linux: &lt;a href=&quot;http:&#x2F;&#x2F;gorails.com&#x2F;setup&#x2F;ubuntu&quot;&gt;Setup Ruby On Rails on Ubuntu 13.04&lt;&#x2F;a&gt;. Same as above, follow the steps until you reach &lt;em&gt;Configuring Git&lt;&#x2F;em&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Windows: &lt;a href=&quot;http:&#x2F;&#x2F;www.ruby-forum.com&#x2F;topic&#x2F;4413168&quot;&gt;SQLite3 Ruby 2.0 on Windows&lt;&#x2F;a&gt; and &lt;a href=&quot;http:&#x2F;&#x2F;kylecordes.com&#x2F;2008&#x2F;git-windows-go&quot;&gt;Getting Started with Git and GitHub on Windows&lt;&#x2F;a&gt;. I haven&#x27;t too much experience on windows, so keep the finger crossed and&#x2F;or ask on the same forum thread. The Ruby community is very kind :-)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Now, you should have all the requirements to get started.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;install-bundler-gem&quot;&gt;Install Bundler gem&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;gembundler.com&quot;&gt;Bundler&lt;&#x2F;a&gt; is a &lt;a href=&quot;http:&#x2F;&#x2F;guides.rubygems.org&quot;&gt;Ruby gem&lt;&#x2F;a&gt; that helps you to manage development dependencies in a project. We&#x27;ll see how it works later, for now, just install it:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;gem install bundler
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;install-rails-v4-0-0-gem&quot;&gt;Install Rails v4.0.0 gem&lt;&#x2F;h4&gt;
+&lt;p&gt;We&#x27;re going to use the upcoming new version of rails. At the time of writing (mid june 2013), it&#x27;s the &lt;em&gt;2nd Release Candidate&lt;&#x2F;em&gt; but, according to its author, &lt;a href=&quot;https:&#x2F;&#x2F;twitter.com&#x2F;dhh&#x2F;status&#x2F;344819888566702081&quot;&gt;it should be enough stable&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;EDIT:&lt;&#x2F;strong&gt; rails 4.0.0 is out, so don&#x27;t use rc2.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;gem&lt;&#x2F;span&gt;&lt;span&gt; install rails&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v4&lt;&#x2F;span&gt;&lt;span&gt;.0.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;a-simple-web-application-to-manage-and-share-bookmarks&quot;&gt;A simple web application to manage and share bookmarks&lt;&#x2F;h3&gt;
+&lt;p&gt;Someone says that &lt;em&gt;doing it is the best way to learn&lt;&#x2F;em&gt;, so here&#x27;s a &lt;em&gt;less common&lt;&#x2F;em&gt; tutorial app: a simple platform to manage or share bookmarks. It&#x27;s nothing fancy, but it&#x27;s enough to apply some basic concepts. Moreover, aren&#x27;t you bored about &lt;em&gt;todo lists&lt;&#x2F;em&gt; and &lt;em&gt;blog engines&lt;&#x2F;em&gt; over and over? :-)&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;create-the-rails-app&quot;&gt;Create the rails app&lt;&#x2F;h4&gt;
+&lt;p&gt;When you install rails, it comes with a bunch of other libraries and&#x2F;or command line tools. The main one is &lt;code&gt;rails&lt;&#x2F;code&gt;. For now, we&#x27;ll use it to generate the initial skeleton:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; new bookmarks&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -T -d&lt;&#x2F;span&gt;&lt;span&gt; sqlite3&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -B
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I&#x27;ve also passed some arguments to the command:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-T&lt;&#x2F;code&gt;: skip &lt;code&gt;Test::Unit&lt;&#x2F;code&gt; files. It&#x27;s not fundamental for our purposes (but they are in the everyday Ruby &lt;em&gt;and&lt;&#x2F;em&gt; Rails development), so I skipped them because &lt;em&gt;testing&lt;&#x2F;em&gt; is an argument apart and I don&#x27;t want to overcomplicate this article.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;-d sqlite3&lt;&#x2F;code&gt;: we want to use &lt;a href=&quot;http:&#x2F;&#x2F;www.sqlite.org&quot;&gt;SQLite&lt;&#x2F;a&gt; database. It fits perfectly for our purposes. Please note that, Rails has support for a wide variety of databases, even NoSQL ones. It&#x27;s also common to have different database engines based on the environment (eg: SQLite for development, MySQL or PostgreSQL for production, etc...) without code changes.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;-B&lt;&#x2F;code&gt;: don&#x27;t run &lt;code&gt;bundle install&lt;&#x2F;code&gt;, we&#x27;ll do it manually later.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Once you run the command, you should see a long list of lines that explain what is happening:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos % rails new bookmarks&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -T -d&lt;&#x2F;span&gt;&lt;span&gt; sqlite3&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -B
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; README.rdoc
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; Rakefile
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; config.ru
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; .gitignore
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; Gemfile
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; app
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos % cd bookmarks
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks %
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;A new directory called &lt;code&gt;bookmarks&lt;&#x2F;code&gt; (or whatever name you passed) has been created, along with a set of files and directories inside it. Enter this directory, we&#x27;ll see the important contents during the article.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;a-first-look-at-bundler-and-gemfile&quot;&gt;A first look at Bundler and Gemfile&lt;&#x2F;h4&gt;
+&lt;p&gt;We mentioned Bundler as a tool to manage development dependencies in a Ruby app. It works by reading a file called &lt;code&gt;Gemfile&lt;&#x2F;code&gt; that should be present in the root directory of the app. You need this to make sure all the required gems are installed, even rails itself. Here&#x27;s a brief look at the Gemfile generated by the &lt;code&gt;rails new&lt;&#x2F;code&gt; command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span&gt;source &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;https:&#x2F;&#x2F;rubygems.org&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Our rails version
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;4.0.0&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use sqlite3 as the database for Active Record
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;sqlite3&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use SCSS for stylesheets
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;sass-rails&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;~&amp;gt; 4.0.0&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use Uglifier as compressor for JavaScript assets
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;uglifier&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;= 1.3.0&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use CoffeeScript for .js.coffee assets and views
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;coffee-rails&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;~&amp;gt; 4.0.0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;# Uncomment this if you haven&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;t a nodejs &lt;&#x2F;span&gt;&lt;span&gt;and&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt; coffeescript installed
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# gem &amp;#39;therubyracer&amp;#39;, platforms: :ruby
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;[...]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;As you can see, this is the default list of gems you need to start working on a Rails project. Of course, you&#x27;ll change it very often to add, remove or upgrade gems.&lt;&#x2F;p&gt;
+&lt;p&gt;Now you can finally run &lt;code&gt;bundle install&lt;&#x2F;code&gt; (the command we skipped by specifying &lt;code&gt;-B&lt;&#x2F;code&gt;):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % bundle install
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Fetching&lt;&#x2F;span&gt;&lt;span&gt; gem metadata from https:&#x2F;&#x2F;rubygems.org&#x2F;..........
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Fetching&lt;&#x2F;span&gt;&lt;span&gt; gem metadata from https:&#x2F;&#x2F;rubygems.org&#x2F;..
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Resolving&lt;&#x2F;span&gt;&lt;span&gt; dependencies...
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Using&lt;&#x2F;span&gt;&lt;span&gt; rake (10.0.4)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Installing&lt;&#x2F;span&gt;&lt;span&gt; i18n (0.6.4)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Your&lt;&#x2F;span&gt;&lt;span&gt; bundle is complete!
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Use &lt;&#x2F;span&gt;&lt;span&gt;`&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bundle&lt;&#x2F;span&gt;&lt;span&gt; show &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;gemname&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;` to see where a bundled gem is installed.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks %
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;If you use &lt;em&gt;git&lt;&#x2F;em&gt;, this is a good moment to initialize the repo and proceed with the initial commit.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;run-the-development-server&quot;&gt;Run the development server&lt;&#x2F;h4&gt;
+&lt;p&gt;Even if you haven&#x27;t yet wrote any line of code, you can already use the Rails development server. Run the following command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rails server
+&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; Booting &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;WEBrick
+&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; Rails &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;4.0.0&lt;&#x2F;span&gt;&lt;span&gt; application starting in development on http:&#x2F;&#x2F;0.0.0.0:3000
+&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; Run `&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; server&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -h&lt;&#x2F;span&gt;&lt;span&gt;` for more startup options
+&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; Ctrl-C &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;to&lt;&#x2F;span&gt;&lt;span&gt; shutdown server
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[2013-06-14&lt;&#x2F;span&gt;&lt;span&gt; 16:10:48] INFO WEBrick 1.3.1
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[2013-06-14&lt;&#x2F;span&gt;&lt;span&gt; 16:10:48] INFO ruby 1.9.3 (2012-04-20) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[x86_64-darwin12.2.0]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[2013-06-14&lt;&#x2F;span&gt;&lt;span&gt; 16:10:48] INFO WEBrick::HTTPServer#start: pid=1174 port=3000
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;then point your browser to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&quot;&gt;http:&#x2F;&#x2F;localhost:3000&lt;&#x2F;a&gt; and you&#x27;ll get a standard welcome page. This time we&#x27;ve used &lt;code&gt;rails server&lt;&#x2F;code&gt;, another useful command offered by Rails, moreover, it works only when you run it inside a Rails project folder. We&#x27;ll see other useful commands later.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;a-quick-introduction-to-mvc-patterns-and-rails&quot;&gt;A quick introduction to MVC patterns and Rails&lt;&#x2F;h3&gt;
+&lt;p&gt;Rails is usually defined as an &lt;em&gt;MVC framework&lt;&#x2F;em&gt;. Basically, it means that the app behaviour is defined in this way:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Model:&lt;&#x2F;strong&gt; manages data between the rest of the application and the database. You can define how a single entity behaves, this includes data validation, before&#x2F;after save hooks, etc...&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Controller:&lt;&#x2F;strong&gt; this is the &lt;em&gt;glue&lt;&#x2F;em&gt; between the data managed by the Models and the rendered Views. Http requests that come to your app, are &lt;em&gt;routed&lt;&#x2F;em&gt; to a controller which usually will interact with one or more models and finally renders the ouput along with an Http response.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;View:&lt;&#x2F;strong&gt; the final output for a request. It&#x27;s usually a piece of HTML, but it might also be JSON or XML. We&#x27;ll see this later.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This is, of course, an over-simplification, but it should be enough to get a &lt;em&gt;vague idea&lt;&#x2F;em&gt; of how it works. I&#x27;ll dive into some details later.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;add-a-bookmark-resource&quot;&gt;Add a Bookmark resource&lt;&#x2F;h3&gt;
+&lt;p&gt;The goal of our app is to manage bookmarks, right? So we create our &lt;code&gt;Bookmark&lt;&#x2F;code&gt; resource:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rails generate scaffold bookmark title:string url:string
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invoke&lt;&#x2F;span&gt;&lt;span&gt; active_record
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; db&#x2F;migrate&#x2F;20130614142337_create_bookmarks.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; app&#x2F;models&#x2F;bookmark.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invoke&lt;&#x2F;span&gt;&lt;span&gt; resource_route
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;route&lt;&#x2F;span&gt;&lt;span&gt; resources :bookmarks
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invoke&lt;&#x2F;span&gt;&lt;span&gt; scaffold_controller
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; app&#x2F;controllers&#x2F;bookmarks_controller.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This time, we&#x27;ve used &lt;code&gt;rails generate&lt;&#x2F;code&gt;, one of the most useful commands. In this case, we&#x27;ve generated a &lt;em&gt;scaffold&lt;&#x2F;em&gt; that creates all the necessary files and code to automatically get a full &lt;em&gt;MVC&lt;&#x2F;em&gt; stack that manages a &lt;em&gt;Bookmark&lt;&#x2F;em&gt;. In the next paragraphs, we&#x27;ll see in detail what did the above command.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;database-migration&quot;&gt;Database migration&lt;&#x2F;h4&gt;
+&lt;p&gt;We&#x27;ve specified that a &lt;em&gt;Bookmark&lt;&#x2F;em&gt; record is made of a &lt;em&gt;title&lt;&#x2F;em&gt; and a &lt;em&gt;url&lt;&#x2F;em&gt; fields, both of type &lt;em&gt;string&lt;&#x2F;em&gt; (255 chars by default). So, the rails scaffold generator has automatically created a &lt;em&gt;migration&lt;&#x2F;em&gt; script to update your database schema: &lt;code&gt;db&#x2F;migrate&#x2F;db&#x2F;migrate&#x2F;20130614142337_create_bookmarks.rb&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;CreateBookmarks &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ActiveRecord::Migration
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;change
+&lt;&#x2F;span&gt;&lt;span&gt;    create_table &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:bookmarks &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;t&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      t.string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:title
+&lt;&#x2F;span&gt;&lt;span&gt;      t.string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:url
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      t.timestamps
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Even if it&#x27;s almost easy to read, this code basically means:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;create a &lt;code&gt;bookmarks&lt;&#x2F;code&gt; table on database (note the pluralized form)&lt;&#x2F;li&gt;
+&lt;li&gt;it has the fields &lt;code&gt;title&lt;&#x2F;code&gt; and &lt;code&gt;url&lt;&#x2F;code&gt; of type string&lt;&#x2F;li&gt;
+&lt;li&gt;also add timestmps by default (this is automatically translated to &lt;code&gt;created_at&lt;&#x2F;code&gt; and &lt;code&gt;updated_at&lt;&#x2F;code&gt; datetime fields)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;However, your database still doesn&#x27;t know about these changes to the schema, you need to run the migration task:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rake db:migrate
+&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CreateBookmarks:&lt;&#x2F;span&gt;&lt;span&gt; migrating ================================================
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;--&lt;&#x2F;span&gt;&lt;span&gt; create_table(:bookmarks)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;-&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;.0011s
+&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CreateBookmarks:&lt;&#x2F;span&gt;&lt;span&gt; migrated (0.0012s) =&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;======================================
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;rake.rubyforge.org&quot;&gt;Rake&lt;&#x2F;a&gt; is another common and useful tool in the Ruby world. It acts like a &lt;em&gt;Makefile&lt;&#x2F;em&gt; in a Ruby fashion. Rails comes with several &lt;em&gt;rake&lt;&#x2F;em&gt; tasks ready to use (you can also create custom ones, if needed):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rake&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -T
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rake&lt;&#x2F;span&gt;&lt;span&gt; about &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# List versions of all Rails frameworks and the environment
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rake&lt;&#x2F;span&gt;&lt;span&gt; assets:clean &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Remove old compiled assets
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rake&lt;&#x2F;span&gt;&lt;span&gt; assets:clobber &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Remove compiled assets
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rake&lt;&#x2F;span&gt;&lt;span&gt; assets:environment &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Load asset compile environment
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;the-boomark-model&quot;&gt;The Boomark model&lt;&#x2F;h4&gt;
+&lt;p&gt;The model representing a &lt;em&gt;bookmark&lt;&#x2F;em&gt; was created in &lt;code&gt;app&#x2F;models&#x2F;bookmark.rb&lt;&#x2F;code&gt;, at the moment it&#x27;s almost empty in terms of code, but it already knows how to behave with the database. To demonstrate this, we&#x27;ll use another Rails command to open a &lt;em&gt;console&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rails console
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Loading&lt;&#x2F;span&gt;&lt;span&gt; development environment (Rails 4.0.0)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now, we have a shell to manually issue commands to our rails app. Let&#x27;s see if it knows something about our &lt;em&gt;Bookmark&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span&gt;&amp;gt; Bookmark
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; =&amp;gt; Bookmark(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;id:&lt;&#x2F;span&gt;&lt;span&gt; integer, title: string, url: string, created_at: datetime, updated_at: datetime)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; Bookmark.count
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;     (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0.3ms&lt;&#x2F;span&gt;&lt;span&gt;)  SELECT COUNT(*) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;FROM &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bookmarks&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It knows about the &lt;em&gt;bookmarks&lt;&#x2F;em&gt; table, its fields and how to query the database. Ok, create one &lt;em&gt;Bookmark&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span&gt;&amp;gt; Bookmark.create(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;title: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello Bookmarks app!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, url: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;http:&#x2F;&#x2F;localhost:3000&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0.1ms&lt;&#x2F;span&gt;&lt;span&gt;) begin transaction
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; SQL (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;7.7ms&lt;&#x2F;span&gt;&lt;span&gt;) INSERT INTO &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bookmarks&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; (&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;created_at&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;updated_at&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;VALUES&lt;&#x2F;span&gt;&lt;span&gt; (?, ?, ?, ?) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[[&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;created_at&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;,&lt;&#x2F;span&gt;&lt;span&gt; Fri, 14 Jun 2013 15:16:17 UTC +00:00], &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello Bookmarks app!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;updated_at&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, Fri, 14 Jun 2013 15:16:17 UTC +00:00&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;http:&#x2F;&#x2F;localhost:3000&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0.8ms&lt;&#x2F;span&gt;&lt;span&gt;) commit transaction
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#&amp;lt;Bookmark id: 1, title: &amp;quot;Hello Bookmarks app!&amp;quot;, url: &amp;quot;http:&#x2F;&#x2F;localhost:3000&amp;quot;, created_at: &amp;quot;2013-06-14 15:16:17&amp;quot;, updated_at: &amp;quot;2013-06-14 15:16:17&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; Bookmark.count
+&lt;&#x2F;span&gt;&lt;span&gt;  (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0.3ms&lt;&#x2F;span&gt;&lt;span&gt;)  SELECT COUNT(*) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;FROM &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bookmarks&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;the-bookmarkscontroller-and-its-views&quot;&gt;The BookmarksController and its views&lt;&#x2F;h4&gt;
+&lt;p&gt;We said that the &lt;em&gt;scaffold generator&lt;&#x2F;em&gt; has created all the parts of the MVC stack, now is the time for the controller in &lt;code&gt;app&#x2F;controllers&#x2F;bookmarks_controller.rb&lt;&#x2F;code&gt;. You&#x27;ll see a &lt;code&gt;BookmarksController&lt;&#x2F;code&gt; class and a bunch of methods (called &lt;em&gt;actions&lt;&#x2F;em&gt;). Each action corresponds to an HTTP PATH (eg: &lt;code&gt;&#x2F;bookmarks&lt;&#x2F;code&gt;) and an HTTP verb (GET, POST, PUT, DELETE).&lt;&#x2F;p&gt;
+&lt;p&gt;The autogenerated code is quite clear and, for brevity reasons, I can&#x27;t dive too much in it. The interesting parts are:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;nowhere in the code is specified how to render views. There&#x27;s a reason for that: html views are based on the controller&#x27;s actions names. For example, &lt;code&gt;BookmarksController#show&lt;&#x2F;code&gt; will render a template placed in &lt;code&gt;app&#x2F;views&#x2F;bookmarks&#x2F;show.html.erb&lt;&#x2F;code&gt;. Of course, only the actions that respond to &lt;em&gt;HTTP GET&lt;&#x2F;em&gt; have a template, the rest are usually redirects. Check yourself the contents in &lt;code&gt;app&#x2F;views&#x2F;bookmarks&#x2F;&lt;&#x2F;code&gt; to get an idea.&lt;&#x2F;li&gt;
+&lt;li&gt;it looks like there&#x27;s some automagical &lt;em&gt;JSON&lt;&#x2F;em&gt; support. That&#x27;s true, rails supports &lt;em&gt;HTML&lt;&#x2F;em&gt; and &lt;em&gt;JSON&lt;&#x2F;em&gt; request by default, I&#x27;ll show you this later.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;routes&quot;&gt;Routes&lt;&#x2F;h4&gt;
+&lt;p&gt;The final component for the &lt;em&gt;MVC&lt;&#x2F;em&gt; stack is about routing the &lt;em&gt;HTTP&lt;&#x2F;em&gt; requests to the proper controller and action. To make this, the Rails generator has updated &lt;code&gt;config&#x2F;routes.rb&lt;&#x2F;code&gt; file and has added the line &lt;code&gt;resources :bookmarks&lt;&#x2F;code&gt; that is a shorthand to say: &lt;em&gt;use &lt;a href=&quot;http:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Representational_State_Transfer&quot;&gt;REST&lt;&#x2F;a&gt; routes for the the resource bookmark&lt;&#x2F;em&gt;. If you&#x27;re wondering &lt;em&gt;what&lt;&#x2F;em&gt; routes, you can use the relative &lt;em&gt;rake task&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rake routes
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Prefix&lt;&#x2F;span&gt;&lt;span&gt; Verb URI Pattern Controller#Action
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks&lt;&#x2F;span&gt;&lt;span&gt; GET &#x2F;bookmarks(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#index
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;POST&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;bookmarks(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#create
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;new_bookmark&lt;&#x2F;span&gt;&lt;span&gt; GET &#x2F;bookmarks&#x2F;new(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#new
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;edit_bookmark&lt;&#x2F;span&gt;&lt;span&gt; GET &#x2F;bookmarks&#x2F;:id&#x2F;edit(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#edit
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmark&lt;&#x2F;span&gt;&lt;span&gt; GET &#x2F;bookmarks&#x2F;:id(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#show
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PATCH&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;bookmarks&#x2F;:id(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PUT&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;bookmarks&#x2F;:id(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;DELETE&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;bookmarks&#x2F;:id(.:format) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks#destroy
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;try-on-the-server&quot;&gt;Try on the server&lt;&#x2F;h4&gt;
+&lt;p&gt;Now, the fun part. Restart your rails server with &lt;code&gt;rails server&lt;&#x2F;code&gt; and go to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&lt;&#x2F;a&gt;. If you followed the above example in console, you should already see the Bookmark created earlier, otherwise, you can create a new one by clicking on &lt;em&gt;New bookmark&lt;&#x2F;em&gt; link.&lt;&#x2F;p&gt;
+&lt;p&gt;Try &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks.json&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks.json&lt;&#x2F;a&gt; and see what you&#x27;ll get. You still haven&#x27;t written a single line of Ruby, and it already does a lot of things. Awesome, isn&#x27;t it? :-)&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;adding-users-and-authentication&quot;&gt;Adding users and authentication&lt;&#x2F;h3&gt;
+&lt;p&gt;Once we have the &lt;em&gt;Bookmark&lt;&#x2F;em&gt; resource, we need &lt;em&gt;Users&lt;&#x2F;em&gt; that own bookmarks and a way to authenticate them. The Ruby and Rails community is very active: whatever the task is, you&#x27;ll probably find at least one gem to do it (if you don&#x27;t, it might be a good idea to write one). Luckily, user authentication is a very common task, and there are several options. The most used is &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;plataformatec&#x2F;devise&quot;&gt;Devise&lt;&#x2F;a&gt;, let&#x27;s use it.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;installing-devise-gem&quot;&gt;Installing Devise gem&lt;&#x2F;h4&gt;
+&lt;p&gt;Open &lt;code&gt;Gemfile&lt;&#x2F;code&gt; and add this line:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;devise&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;~&amp;gt; 3.0.0.rc&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We also told Bundler to use a version of Devise that should be &lt;em&gt;greater_or_equal&lt;&#x2F;em&gt; than its &lt;em&gt;minor version&lt;&#x2F;em&gt; (eg: 3.0.1 is ok, 3.1.0 isn&#x27;t).&lt;&#x2F;p&gt;
+&lt;p&gt;Run &lt;code&gt;bundle install&lt;&#x2F;code&gt; to install the gem:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % bundle install
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Resolving&lt;&#x2F;span&gt;&lt;span&gt; dependencies...
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Using&lt;&#x2F;span&gt;&lt;span&gt; rake (10.0.4)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Installing&lt;&#x2F;span&gt;&lt;span&gt; devise (3.0.0.rc)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;[...]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Your&lt;&#x2F;span&gt;&lt;span&gt; bundle is complete!
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Use &lt;&#x2F;span&gt;&lt;span&gt;`&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bundle&lt;&#x2F;span&gt;&lt;span&gt; show &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;gemname&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;` to see where a bundled gem is installed.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks %
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;and run the Devise generator:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rails generate devise:install
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; config&#x2F;initializers&#x2F;devise.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; config&#x2F;locales&#x2F;devise.en.yml
+&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;==============================================================================
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span&gt; setup you must do manually if you haven&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;t yet:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;1. Ensure you have defined default url options in your environments files. Here
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   is an example of default_url_options appropriate for a development environment
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   in config&#x2F;environments&#x2F;development.rb:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   config.action_mailer.default_url_options = { :host =&amp;gt; &amp;quot;localhost:3000&amp;quot; }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   In production, :host should be set to the actual host of your application.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;2. Ensure you have defined root*url to \_something* in your config&#x2F;routes.rb.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   For example:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   root :to =&amp;gt; &amp;quot;home#index&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;3. Ensure you have flash messages in app&#x2F;views&#x2F;layouts&#x2F;application.html.erb.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   For example:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;     &amp;lt;p class=&amp;quot;notice&amp;quot;&amp;gt;&amp;lt;%= notice %&amp;gt;&amp;lt;&#x2F;p&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;     &amp;lt;p class=&amp;quot;alert&amp;quot;&amp;gt;&amp;lt;%= alert %&amp;gt;&amp;lt;&#x2F;p&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;4. If you are deploying Rails 3.1+ on Heroku, you may want to set:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   config.assets.initialize_on_precompile = false
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   On config&#x2F;application.rb forcing your application to not access the DB
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   or load models when precompiling your assets.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;5. You can copy Devise views (for customization) to your app by running:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;   rails g devise:views
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;===============================================================================
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;andrea@mbair ~&#x2F;Works&#x2F;12dos&#x2F;bookmarks %
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;As you can see, it has created two files under &lt;code&gt;config&#x2F;&lt;&#x2F;code&gt; directory:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;config&#x2F;initializers&#x2F;devise.rb&lt;&#x2F;code&gt;: here you can change several Devise settings. However, we&#x27;ll use defaults because are enough.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;config&#x2F;locales&#x2F;devise.en.yml&lt;&#x2F;code&gt;: this file contains i18n translations for Devise. Please note that &lt;code&gt;config&#x2F;locales&#x2F;&lt;&#x2F;code&gt; is the default path to put all the locales for a Rails app.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Devise also told us to check five steps to complete the setup:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;add &lt;code&gt;config.action_mailer.default_url_options = { :host =&amp;gt; &#x27;localhost:3000&#x27; }&lt;&#x2F;code&gt; to &lt;code&gt;config&#x2F;environments&#x2F;development.rb&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;define a &lt;em&gt;root_url&lt;&#x2F;em&gt; in &lt;code&gt;config&#x2F;routes.rb&lt;&#x2F;code&gt;. Fow now, we can achieve this by pointing &lt;code&gt;BookmarksController#index&lt;&#x2F;code&gt; to the root of the site:&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Bookmarks&lt;&#x2F;span&gt;&lt;span&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Application&lt;&#x2F;span&gt;&lt;span&gt;.routes.draw &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# [...]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  root &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bookmarks#index&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# [...]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;add the two pieces of html in &lt;code&gt;app&#x2F;views&#x2F;layouts&#x2F;application.html.erb&lt;&#x2F;code&gt;. This file is the main layout your Rails app.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;skip the fourth step because we&#x27;re running a Rails v4.0.x app, not a 3.1.x one)&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;generate the Devise default views with &lt;code&gt;rails generate devise:views&lt;&#x2F;code&gt;. They contain a basic scaffold to get Devise work (eg: login&#x2F;signup forms, etc...). Please note that Devise has several features concerning user authentication and registration, but we&#x27;re going to use only a small set of them, so don&#x27;t panic if you see a lot of generated views.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;generate-a-user-model&quot;&gt;Generate a User model&lt;&#x2F;h4&gt;
+&lt;p&gt;Setup for Devise is done, but we still haven&#x27;t a &lt;em&gt;User&lt;&#x2F;em&gt; model, we need to create one:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;andrea@mbair ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;Works&#x2F;12dos&#x2F;bookmarks % rails generate devise User
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invoke&lt;&#x2F;span&gt;&lt;span&gt; active_record
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; db&#x2F;migrate&#x2F;20130617132545_devise_create_users.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span&gt; app&#x2F;models&#x2F;user.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span&gt; app&#x2F;models&#x2F;user.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;route&lt;&#x2F;span&gt;&lt;span&gt; devise_for :users
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;If you remember the scaffold generator we used to generate a &lt;em&gt;Bookmark&lt;&#x2F;em&gt;, this one is very similar even if just focused on the model, plus the route that tells Devise to handle &lt;code&gt;&#x2F;users&#x2F;*&lt;&#x2F;code&gt; paths. In fact, it created a migration for users and the &lt;em&gt;User&lt;&#x2F;em&gt; class. Edit the migration to look like this (remove or comment the rest):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;DeviseCreateUsers &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ActiveRecord::Migration
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;change
+&lt;&#x2F;span&gt;&lt;span&gt;    create_table(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:users&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;t&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;## Database authenticatable
+&lt;&#x2F;span&gt;&lt;span&gt;      t.string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:email&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:null &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;false&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:default &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      t.string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:encrypted_password&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:null &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;false&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:default &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;## Rememberable
+&lt;&#x2F;span&gt;&lt;span&gt;      t.datetime &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:remember_created_at
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      t.timestamps
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    add_index &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:users&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:email&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:unique &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Also the model needs to reflect the changes made to the migration:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;User &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ActiveRecord::Base
+&lt;&#x2F;span&gt;&lt;span&gt;  devise &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:database_authenticatable&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:registerable&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:rememberable&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:validatable
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The last step, is to run the migration with &lt;code&gt;rake db:migrate&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;In this way, we have a simple authentication system that lets a user to register, login and logout. Try to run &lt;code&gt;rake routes&lt;&#x2F;code&gt; and you&#x27;ll see the new routes for these actions, all referred to &lt;em&gt;users&lt;&#x2F;em&gt;. You can also play in the Rails console to create some user.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;user-has-many-bookmarks&quot;&gt;User has many Bookmarks&lt;&#x2F;h4&gt;
+&lt;p&gt;Now that we have &lt;em&gt;User&lt;&#x2F;em&gt; and &lt;em&gt;Bookmark&lt;&#x2F;em&gt;, we need to &lt;em&gt;associate&lt;&#x2F;em&gt; them. In this case, it&#x27;s a &lt;em&gt;one to many&lt;&#x2F;em&gt; relation. As a shared convention, foreign keys name are made of the model name suffixed by _id. Of course, we&#x27;ll not change the already created migrations, instead, we&#x27;re going to create a new one:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; generate migration AddUserIdToBookmark user_id:integer
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Choosing an appropriate, arbitrary name is not mandatory, but it&#x27;s a &lt;em&gt;best practice&lt;&#x2F;em&gt; that you should follow. Our generated migration will add a &lt;em&gt;user_id&lt;&#x2F;em&gt; integer column to the &lt;em&gt;bookmarks&lt;&#x2F;em&gt; table. Also, feel free to run the migration now.&lt;&#x2F;p&gt;
+&lt;p&gt;At the moment, no one of our two rails models knows about each other, we&#x27;ve only added a field on the database, but it&#x27;s meaningless without some additional instruction:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;add &lt;code&gt;has_many :bookmarks&lt;&#x2F;code&gt; to &lt;code&gt;app&#x2F;models&#x2F;user.rb&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;add &lt;code&gt;belongs_to :user&lt;&#x2F;code&gt; to &lt;code&gt;app&#x2F;models&#x2F;bookmark.rb&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;With these changes, a &lt;code&gt;User&lt;&#x2F;code&gt; instance will automatically have a &lt;code&gt;bookmarks&lt;&#x2F;code&gt; method (and many others), referred to all &lt;em&gt;Bookmark&lt;&#x2F;em&gt; records with that specific &lt;em&gt;user id&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;require-authentication-to-manage-your-bookmarks&quot;&gt;Require authentication to manage your bookmarks&lt;&#x2F;h4&gt;
+&lt;p&gt;Looking at the models, it looks like the &lt;em&gt;data part&lt;&#x2F;em&gt; is complete and working. However, the &lt;code&gt;BookmarksController&lt;&#x2F;code&gt; created by the scaffold command doesn&#x27;t apply any authentication check, it needs some fix.&lt;&#x2F;p&gt;
+&lt;p&gt;First of all, check user authentication before executing whatever action:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;BookmarksController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ApplicationController
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# other before_actions
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  before_action &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:authenticate_user!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# [...] actions
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This means that, from now, each request that arrives to the &lt;code&gt;BookmarksController&lt;&#x2F;code&gt; will first check if a user is authenticated (&lt;code&gt;authenticate_user!&lt;&#x2F;code&gt; is a method provided by Devise), otherwise it will be redirected to the login page.&lt;&#x2F;p&gt;
+&lt;p&gt;Then, access only bookmarks owned by the authenticated user. To do this, replace &lt;code&gt;Bookmark&lt;&#x2F;code&gt; occurrencies with &lt;code&gt;current_user.bookmarks&lt;&#x2F;code&gt;. As you may wonder, &lt;code&gt;current_user&lt;&#x2F;code&gt; is an object provided by Devise that represents the authenticated user, while &lt;code&gt;.bookmarks&lt;&#x2F;code&gt; is the method provided by the model association between &lt;em&gt;User&lt;&#x2F;em&gt; and &lt;em&gt;Bookmark&lt;&#x2F;em&gt; models.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;try-on-the-server-1&quot;&gt;Try on the server&lt;&#x2F;h4&gt;
+&lt;p&gt;If you didn&#x27;t played with the web interface yet, now it&#x27;s a good time to do it. Here there&#x27;re some hints:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;go to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&quot;&gt;http:&#x2F;&#x2F;localhost:3000&lt;&#x2F;a&gt;, it should redirect to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;users&#x2F;sign_in&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;users&#x2F;sign_in&lt;&#x2F;a&gt;, the login page;&lt;&#x2F;li&gt;
+&lt;li&gt;if you haven&#x27;t registered any user, then go to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;users&#x2F;sign_up&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;users&#x2F;sign_up&lt;&#x2F;a&gt; and register a new one;&lt;&#x2F;li&gt;
+&lt;li&gt;retry to go to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;&lt;&#x2F;a&gt; again, it will work as well as going to &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&lt;&#x2F;a&gt; because they&#x27;re the same action;&lt;&#x2F;li&gt;
+&lt;li&gt;create some bookmarks from &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&#x2F;new&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&#x2F;new&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;handling-wrong-inputs&quot;&gt;Handling wrong inputs&lt;&#x2F;h3&gt;
+&lt;p&gt;At the moment, we have several areas where a wrong user input might damage you application:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;providing incomplete or malformed data when creating a new Bookmark&lt;&#x2F;li&gt;
+&lt;li&gt;requesting a bookmark id that doesn&#x27;t exist as a record on the database, for example by visiting &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&#x2F;111&quot;&gt;http:&#x2F;&#x2F;localhost:3000&#x2F;bookmarks&#x2F;111&lt;&#x2F;a&gt;, will cause an error in your app, very ugly to see.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Let&#x27;s see how to solve these issues.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;model-validations&quot;&gt;Model validations&lt;&#x2F;h4&gt;
+&lt;p&gt;If you tried to use a password shorter than 8 chars or a bad formatted email during user registrations, you&#x27;d note that Devise has spotted those errors by not saving the record and rendering the user registration form again. In fact, Devise provided some default validations for users, but our app need validations on the &lt;code&gt;Bookmark&lt;&#x2F;code&gt; model too. Change &lt;code&gt;app&#x2F;models&#x2F;bookmark.rb&lt;&#x2F;code&gt; to look like this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Bookmark &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ActiveRecord::Base
+&lt;&#x2F;span&gt;&lt;span&gt;  belongs_to &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:user
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ensure that a user_id is present
+&lt;&#x2F;span&gt;&lt;span&gt;  validates &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:user_id&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;presence: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ensure that title is present and at least 10 chars long
+&lt;&#x2F;span&gt;&lt;span&gt;  validates &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:title&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;length: &lt;&#x2F;span&gt;&lt;span&gt;{ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;minimum: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10 &lt;&#x2F;span&gt;&lt;span&gt;}, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;presence: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ensure the url is present, and respects the URL format for http&#x2F;https
+&lt;&#x2F;span&gt;&lt;span&gt;  validates &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:url&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;format: &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;with: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Regexp&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;URI&lt;&#x2F;span&gt;&lt;span&gt;::regexp(%w(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;http https&lt;&#x2F;span&gt;&lt;span&gt;)))}, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;presence: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;These validations are self-explanatory, so I&#x27;ll not dive into them. Just keep in mind that there are many others or, in case, you can create custom ones.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;when-a-resource-is-not-found&quot;&gt;When a resource is not found...&lt;&#x2F;h4&gt;
+&lt;p&gt;The second problem we addressed is about passing a wrong&#x2F;non-existent identifier for a given resource. You can handle it in many ways, perhaps the simplest (and laziest) one is to redirect to the index, with a &lt;em&gt;flash message&lt;&#x2F;em&gt;. To do this, we only need to change some line of code in &lt;code&gt;BookmarksController&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;BookmarksController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ApplicationController
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# [...] other code here
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;private &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use callbacks to share common setup or constraints between actions.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;set_bookmark
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;unless &lt;&#x2F;span&gt;&lt;span&gt;@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmark &lt;&#x2F;span&gt;&lt;span&gt;= current_user.bookmarks.where(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;id:&lt;&#x2F;span&gt;&lt;span&gt; params[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:id&lt;&#x2F;span&gt;&lt;span&gt;]).first
+&lt;&#x2F;span&gt;&lt;span&gt;      flash[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:alert&lt;&#x2F;span&gt;&lt;span&gt;] = &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Bookmark not found.&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;      redirect_to root_url
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &lt;code&gt;set_bookmark&lt;&#x2F;code&gt; is a method called in a &lt;em&gt;before_action&lt;&#x2F;em&gt; only for actions that need a resource id (show, edit, update, destroy). The new lines will safely check for existence on database, otherwise the user will be redirected to the root path of the site, with a short flash message.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;improving-the-app-one-step-at-a-time&quot;&gt;Improving the app one step at a time&lt;&#x2F;h3&gt;
+&lt;p&gt;Our app is almost complete, or at leats, it lacks several little details that make a difference. We&#x27;ll try to address some of these. The goal, is to demostrate how to improve an existing app with small steps.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;add-a-better-root-page&quot;&gt;Add a better root page&lt;&#x2F;h4&gt;
+&lt;p&gt;This is a simple task. All we need is a new route, controller and view. This time, we&#x27;ll use a generator dedicated to the controller:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; generate controller site index
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I&#x27;ve omitted the output because at the moment you should already guess what it did. In short, it has created a &lt;code&gt;SiteController&lt;&#x2F;code&gt; with an action called &lt;code&gt;index&lt;&#x2F;code&gt;, plus the related view in &lt;code&gt;app&#x2F;views&#x2F;site&#x2F;index.html.erb&lt;&#x2F;code&gt; and a new route in &lt;code&gt;config&#x2F;routes.rb&lt;&#x2F;code&gt;. However, the route should be changed to reflect our goal:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Bookmarks&lt;&#x2F;span&gt;&lt;span&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Application&lt;&#x2F;span&gt;&lt;span&gt;.routes.draw
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# [...] other routes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Comment&#x2F;remove these lines
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# get &amp;quot;site&#x2F;index&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# root &amp;#39;bookmarks#index&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use this
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;root &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;site#index&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;If you try to load &lt;a href=&quot;http:&#x2F;&#x2F;localhost:3000&quot;&gt;http:&#x2F;&#x2F;localhost:3000&lt;&#x2F;a&gt; you&#x27;ll see the empty template of &lt;code&gt;app&#x2F;views&#x2F;site&#x2F;index.html.erb&lt;&#x2F;code&gt;. To render content, we need to change the controller in &lt;code&gt;app&#x2F;controllers&#x2F;site_controller.rb&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;SiteController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ApplicationController
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;index
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# retrieve all Bookmarks ordered by descending creation timestamp
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bookmarks &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Bookmark&lt;&#x2F;span&gt;&lt;span&gt;.order(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;created_at desc&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;while the view in &lt;code&gt;app&#x2F;views&#x2F;site&#x2F;index.html.erb&lt;&#x2F;code&gt;, might contain this basic markup as a starting point:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;&amp;lt;h2&amp;gt;Latest Bookmarks&amp;lt;&#x2F;h2&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;table style=&amp;quot;width: 100%&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;thead&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &amp;lt;th&amp;gt;Url&amp;lt;&#x2F;th&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;&#x2F;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;thead&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;tbody&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;% @bookmarks.each do |bookmark| %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &amp;lt;td&amp;gt;&amp;lt;%= link_to bookmark.title, bookmark.url %&amp;gt;&amp;lt;&#x2F;td&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;&#x2F;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;% end %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;tbody&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;table&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Again, note how the controller processes the request by retrieving some records from the database through the model &lt;code&gt;Bookmark&lt;&#x2F;code&gt;, then renders its view that contains the proper data to show the bookmarks.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;prettier-gui&quot;&gt;Prettier GUI&lt;&#x2F;h4&gt;
+&lt;p&gt;Being a programmer, I haven&#x27;t too much skills in design and layouts, but there are several CSS frameworks that help a lot. Instead of picking the famous &lt;a href=&quot;http:&#x2F;&#x2F;twitter.github.io&#x2F;bootstrap&#x2F;&quot;&gt;Twitter Bootstrap&lt;&#x2F;a&gt;, I chose &lt;a href=&quot;http:&#x2F;&#x2F;foundation.zurb.com&quot;&gt;ZURB Foundation&lt;&#x2F;a&gt;, just to be fancy. There are a lot of ways to integrate existing CSS&#x2F;Javascript frameworks and libraries inside a Rails app, the simplest one, is to use a gem when possible. Luckily, there&#x27;s one for Zurb Foundation, just add it to your Gemfile:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;zurb-foundation&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;~&amp;gt; 4.2.2&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;run &lt;code&gt;bundle install&lt;&#x2F;code&gt;, plus its install generator:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; generate foundation:install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;this command, will ask you to overwrite your default application layout in &lt;code&gt;app&#x2F;views&#x2F;layouts&#x2F;application.html.erb&lt;&#x2F;code&gt;, press &lt;em&gt;Y&lt;&#x2F;em&gt; without worries. For brevity reasons, I&#x27;ve put the contents of the file &lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;andreapavoni&#x2F;87e2c7261abeeb1ccf9d&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Moreover, we can also remove old scaffold&#x27;s stylesheets:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rm&lt;&#x2F;span&gt;&lt;span&gt; app&#x2F;assets&#x2F;stylesheets&#x2F;scaffolds.css.scss
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;prettier-forms&quot;&gt;Prettier forms&lt;&#x2F;h4&gt;
+&lt;p&gt;Forms are still ugly and boring to write, so we&#x27;ll use &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;plataformatec&#x2F;simple_form&quot;&gt;another useful gem&lt;&#x2F;a&gt; (from the same authors of &lt;em&gt;Devise&lt;&#x2F;em&gt;) to mitigate the problem. Add it to your Gemfile:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;gem &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;simple_form&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;~&amp;gt; 3.0.0.rc&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;run &lt;code&gt;bundle install&lt;&#x2F;code&gt; and the install generator (note that it already supports Foundation&#x27;s markup structure):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; generate simple_form:install&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --foundation
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We&#x27;ll also re-generate &lt;em&gt;Devise&lt;&#x2F;em&gt; views, because it supports &lt;em&gt;SimpleForm&lt;&#x2F;em&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rails&lt;&#x2F;span&gt;&lt;span&gt; generate devise:views
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The generator will ask you if you want to overwrite existent files, press &lt;em&gt;Y&lt;&#x2F;em&gt; because that&#x27;s what we really want.&lt;&#x2F;p&gt;
+&lt;p&gt;The last step is to fix the &lt;em&gt;Bookmarks&lt;&#x2F;em&gt; form, it wasn&#x27;t updated by the other generators, we&#x27;ll do it manually by overwriting its (partial) template in &lt;code&gt;app&#x2F;views&#x2F;bookmarks&#x2F;_form.html.erb&lt;&#x2F;code&gt; with the following content:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;&amp;lt;%= simple_form_for(@bookmark) do |f| %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;%= f.error_notification %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;div class=&amp;quot;form-inputs&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= f.input :title %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= f.input :url %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;div class=&amp;quot;form-actions&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= f.button :submit %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;% end %&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;a-welcome-page&quot;&gt;A welcome page&lt;&#x2F;h4&gt;
+&lt;p&gt;It would be &lt;em&gt;professional&lt;&#x2F;em&gt; to show a welcome page for non-registered users. To keep things simple, I&#x27;ll use the same &lt;code&gt;SiteController#index&lt;&#x2F;code&gt; used for the root page. Modify &lt;code&gt;app&#x2F;views&#x2F;site&#x2F;index.html.erb&lt;&#x2F;code&gt; to look like &lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;andreapavoni&#x2F;98eeca9a0979c5802eb3&quot;&gt;this&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;conclusions&quot;&gt;Conclusions&lt;&#x2F;h3&gt;
+&lt;p&gt;Congratulations! If you carefully followed all the steps, you should have a basic, yet working, Ruby On Rails app. Of course, this is only the &lt;em&gt;tip of the iceberg&lt;&#x2F;em&gt;: for brevity reasons, I&#x27;ve oversimplified some concepts, and I&#x27;ve skipped several important aspects (eg: using CSS&#x2F;SASS and Javascript&#x2F;Coffeescript, testing, deploy, etc...) that you should know if you want to be a proficient Ruby On Rails developer. However, as you can see, this happened to be already a huge article, at least in terms of lenght :-P&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;ve uploaded the &lt;em&gt;complete app&lt;&#x2F;em&gt; on github: &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andreapavoni&#x2F;12dos-bookmarks&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;andreapavoni&#x2F;12dos-bookmarks&lt;&#x2F;a&gt;. It&#x27;s a bit different from the one we wrote here, but it also adds some more features:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;pagination with &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;amatsuda&#x2F;kaminari&quot;&gt;kaminari&lt;&#x2F;a&gt; gem&lt;&#x2F;li&gt;
+&lt;li&gt;use &lt;em&gt;profile pages&lt;&#x2F;em&gt; to show single user&#x27;s bookmarks&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Clone or fork the code and experiment with it.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;webography&quot;&gt;Webography&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;guides.rubyonrails.org&quot;&gt;http:&#x2F;&#x2F;guides.rubyonrails.org&lt;&#x2F;a&gt;: official documentation and guides&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;railscasts.com&quot;&gt;http:&#x2F;&#x2F;railscasts.com&lt;&#x2F;a&gt;: videos (and transcripts)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.ruby-lang.org&#x2F;en&#x2F;documentation&#x2F;&quot;&gt;http:&#x2F;&#x2F;www.ruby-lang.org&#x2F;en&#x2F;documentation&lt;&#x2F;a&gt;: Ruby&#x27;s official documentation&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.ruby-toolbox.com&quot;&gt;https:&#x2F;&#x2F;www.ruby-toolbox.com&lt;&#x2F;a&gt;: a place where to find gems for your tasks&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;bibliography&quot;&gt;Bibliography&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;pragprog.com&#x2F;book&#x2F;ruby4&#x2F;programming-ruby-1-9-2-0&quot;&gt;Programming Ruby 1.9 &amp;amp; 2.0 (4th edition): The Pragmatic Programmers&#x27; Guide&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;pragprog.com&#x2F;book&#x2F;rails4&#x2F;agile-web-development-with-rails-4&quot;&gt;Agile Web Development with Rails 4&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;pragprog.com&#x2F;book&#x2F;jvrails2&#x2F;crafting-rails-4-applications&quot;&gt;Crafting Rails 4 Applications: Expert Practices for Everyday Rails Development&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;leanpub.com&#x2F;tr4w&quot;&gt;The Rails 4 Way&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+        </item>
+        <item>
+            <title>Hello Go lang!</title>
+            <pubDate>Fri, 03 May 2013 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/hello-go-lang/</link>
+            <guid>https://pavonz.com/blog/hello-go-lang/</guid>
+            <description>&lt;h3 id=&quot;tl-dr&quot;&gt;TL;DR&lt;&#x2F;h3&gt;
+&lt;p&gt;I decided to try Go and I developed a simple web app. There&#x27;s a &lt;a href=&quot;http:&#x2F;&#x2F;goshort.herokuapp.com&quot;&gt;working demo on heroku&lt;&#x2F;a&gt; and source code is available on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andreapavoni&#x2F;goshort&quot;&gt;github&lt;&#x2F;a&gt;. It was an awesome journey and I&#x27;m planning to go further.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;beyond-hello-world&quot;&gt;Beyond Hello World&lt;&#x2F;h3&gt;
+&lt;p&gt;You know, when you learn a new programming language, &lt;em&gt;Hello World&lt;&#x2F;em&gt; is not enough, you always need some known problem to solve, but &lt;em&gt;known problem&lt;&#x2F;em&gt; doesn&#x27;t mean a boring non-practical algorithm. I decided to port &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andreapavoni&#x2F;avarus&quot;&gt;avarus&lt;&#x2F;a&gt;, a simple Url shortener built with &lt;a href=&quot;http:&#x2F;&#x2F;cuba.is&quot;&gt;Cuba&lt;&#x2F;a&gt; ruby microframework and &lt;a href=&quot;http:&#x2F;&#x2F;redis.io&quot;&gt;Redis&lt;&#x2F;a&gt;. It is a web application, it uses a database and it took a very low amount of code (~150&#x2F;200 loc). So it&#x27;s a good candidate to port in Go.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;first-steps&quot;&gt;First steps&lt;&#x2F;h3&gt;
+&lt;p&gt;Until few days ago, I&#x27;ve never used Go, I&#x27;d just read a lot of blog posts and some wiki page. I&#x27;ve read &lt;a href=&quot;http:&#x2F;&#x2F;golang.org&#x2F;doc&#x2F;install&quot;&gt;Getting Started&lt;&#x2F;a&gt; (but I&#x27;ve used homebrew) and followed the first pages of &lt;a href=&quot;http:&#x2F;&#x2F;tour.golang.org&#x2F;&quot;&gt;A Tour of Go&lt;&#x2F;a&gt;, then I launched the editor to get my hands on. I premise that, during the years, I&#x27;ve used a lot of programming languages, so maybe I&#x27;m a bit biased, however Go looked very clean and familiar, especially if you&#x27;ve used C&#x2F;C++.
+My first impressions were quite positive, Go has an awesome set of easy and portable tools: you install Go and you get all you need to work.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;from-ruby-to-go&quot;&gt;From Ruby to Go&lt;&#x2F;h3&gt;
+&lt;p&gt;I was wondering how much effort should be needed to write the same program from Ruby to Go. They are different for many reasons, so I was expecting a big gap in the lines of code and a steep learning curve. I was wrong, it only took 2 hours to get a working prototype, then I&#x27;ve dedicated some day trying to refine the code to reach a decent implementation. The final result took ~200&#x2F;250 lines of code, it&#x27;s an excellent result, considering that Go is a &lt;em&gt;low level&lt;&#x2F;em&gt; language, especially when compared to Ruby.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;libraries-and-support&quot;&gt;Libraries and support&lt;&#x2F;h3&gt;
+&lt;p&gt;I&#x27;ve found that Go has a lot of &lt;em&gt;packages&lt;&#x2F;em&gt; bundled with its standard library (plus the ones provided by the community) and it was quite easy to find answers, most of them on the &lt;a href=&quot;https:&#x2F;&#x2F;groups.google.com&#x2F;forum&#x2F;?fromgroups#!forum&#x2F;golang-nuts&quot;&gt;Go mail list&lt;&#x2F;a&gt;) to solve problems related to some weirdness in code organization.
+At the beginning, I&#x27;ve used &lt;a href=&quot;http:&#x2F;&#x2F;golang.org&#x2F;pkg&#x2F;net&#x2F;http&#x2F;&quot;&gt;net&#x2F;http&lt;&#x2F;a&gt; package to write the web server part but, you know, nobody would use a so low level library for this task. So I chose &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoisie&#x2F;web&quot;&gt;web.go&lt;&#x2F;a&gt;, a micro web framework very similar to Sinatra and Cuba minimalistic approach. If you&#x27;re looking to something more MVC-like, you should look at &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;astaxie&#x2F;beego&quot;&gt;beego&lt;&#x2F;a&gt;, it has excellent features (eg: it handles JSON).&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;one-tool-to-rule-them-all&quot;&gt;One tool to rule them all&lt;&#x2F;h3&gt;
+&lt;p&gt;I said that the Go toolchain is easy to use, the &lt;code&gt;go&lt;&#x2F;code&gt; command, does almost everything:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;run a program (compiles it temporarily): &lt;code&gt;go run myfile.go&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;build (compile to a binary): &lt;code&gt;go build&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;test &lt;code&gt;go test&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;compile and install a remote package: &lt;code&gt;go get url.to&#x2F;package_name&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I&#x27;m almost sure there are other available commands, I&#x27;ve just listed the bare minimum ones. Moreover, the compiler warns you about syntax errors, unused packages and variables and the resulted binary is ready for use &lt;em&gt;as is&lt;&#x2F;em&gt;. Isn&#x27;t it cool?&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;troubles&quot;&gt;Troubles?&lt;&#x2F;h3&gt;
+&lt;p&gt;During this amazing jouney, the hardest problems where:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;File organization and namespaces: you can use subdirectories for namespacing, but they become internal &lt;em&gt;packages&lt;&#x2F;em&gt; and you need to follow some rules and conventions to keep your app working. The only offical guideline is &lt;a href=&quot;http:&#x2F;&#x2F;golang.org&#x2F;doc&#x2F;code.html&quot;&gt;How to write Go code&lt;&#x2F;a&gt;, but it offers a very basic overview on code organization.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Sometimes, you get &lt;em&gt;unclear errors&lt;&#x2F;em&gt; from the compiler, most of them due to some access to null pointers or errors in language syntax (eg: using control stuctures outside a function block).&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;I wasn&#x27;t able to write decent tests, I tried for a bit, then I&#x27;ve &lt;em&gt;delayed&lt;&#x2F;em&gt; the idea for later. Maybe I need some more nowledge (and snippets) to get an idea. All I know, is that you need to put the file names with a &lt;code&gt;_test.go&lt;&#x2F;code&gt; suffix inside the same directory.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;As you can see, they&#x27;re trivial, perhaps caused from the fact that I&#x27;m a Go newbie :P&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;deploy&quot;&gt;Deploy&lt;&#x2F;h3&gt;
+&lt;p&gt;Before deciding to pick Go, I&#x27;ve quickly investigated about deploying the app. I&#x27;ve found some article about deploying on heroku, so I&#x27;ve started to write my app without reading them. Again, I was wondering about the needed effort to deploy a Go app and, again, I was quite surprised. I&#x27;ve followed &lt;a href=&quot;http:&#x2F;&#x2F;mmcgrana.github.io&#x2F;2012&#x2F;09&#x2F;getting-started-with-go-on-heroku.html&quot;&gt;this tutorial&lt;&#x2F;a&gt; and everything worked flawlessy: heroku compiles your code to a binary, then runs it through Procfile. Almost the same would happen on a custom VPS box, once you have a working Go installation.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;final-thoughts&quot;&gt;Final thoughts&lt;&#x2F;h3&gt;
+&lt;p&gt;It was an awesome journey, Go is a very interesting language and I think it might be used for other projects. I&#x27;m planning to go further, trying to build some other pet project. As you can see, I didn&#x27;t mention about Go&#x27;s main strenghts (eg: concurrency), you can find thousands of articles and discussions about this. Instead, I focused on telling my story on &lt;em&gt;what happens when you try to learn Go and build a simple web app&lt;&#x2F;em&gt;. A lot of people is adopting (or going to adopt) NodeJs for several (almost good) reasons, if you&#x27;re one of these, give Go a try ;-)&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>Create recursive OpenStruct from a Ruby Hash</title>
+            <pubDate>Wed, 24 Apr 2013 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/recursive-openstruct-from-ruby-hash/</link>
+            <guid>https://pavonz.com/blog/recursive-openstruct-from-ruby-hash/</guid>
+            <description>&lt;p&gt;When I develop some ruby app, mostly rails ones, I need to manage several configuration variables (eg: API keys) and I like to store them in a unique place. So I usually end up with something like this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# config&#x2F;initializers&#x2F;_load_config.rb
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;path = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;File&lt;&#x2F;span&gt;&lt;span&gt;.read(&amp;quot;#{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Rails&lt;&#x2F;span&gt;&lt;span&gt;.root}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;config&#x2F;config.yml&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;APP_CONF = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ActiveSupport&lt;&#x2F;span&gt;&lt;span&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;HashWithIndifferentAccess&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;YAML&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;load&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ERB&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(path).result)[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Rails&lt;&#x2F;span&gt;&lt;span&gt;.env]
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It does a good job:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;it first compiles eventual ERB tags (so you can store values in &lt;code&gt;ENV&lt;&#x2F;code&gt;)&lt;&#x2F;li&gt;
+&lt;li&gt;then it loads YAML&lt;&#x2F;li&gt;
+&lt;li&gt;finally initializes a &lt;a href=&quot;http:&#x2F;&#x2F;apidock.com&#x2F;rails&#x2F;v3.2.13&#x2F;ActiveSupport&#x2F;HashWithIndifferentAccess&#x2F;new&#x2F;class&quot;&gt;HashWithIndifferentAccess&lt;&#x2F;a&gt;, so I can lookup keys with either a String or a Symbol&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The last point is a &lt;em&gt;plus&lt;&#x2F;em&gt;, kindly offered by Rails&#x27; ActiveSupport library, I prefer Symbol over String for Hash keys.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-problem&quot;&gt;The problem&lt;&#x2F;h3&gt;
+&lt;p&gt;However, I knew that there&#x27;s a smarter way to achieve same goal, even with some more adavantages. I started from &lt;a href=&quot;http:&#x2F;&#x2F;www.ruby-doc.org&#x2F;stdlib-2.0&#x2F;libdoc&#x2F;ostruct&#x2F;rdoc&#x2F;OpenStruct.html&quot;&gt;OpenStruct&lt;&#x2F;a&gt;:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;it solves the problem of Hash key lookup by providing them as methods, for example:&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;require &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ostruct&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash &lt;&#x2F;span&gt;&lt;span&gt;= {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;b: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;OpenStruct&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; 1
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; 2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ul&gt;
+&lt;li&gt;it&#x27;s part of the Ruby&#x27;s standard library (along with YAML and ERB as well)&lt;&#x2F;li&gt;
+&lt;li&gt;it&#x27;s very simple to hack ;-)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Looks excellent, right? Well, it&#x27;s not &lt;em&gt;perfect&lt;&#x2F;em&gt;, because it doesn&#x27;t handle nested hashes, in other words, here&#x27;s what happen when you pass an Hash that has other hashes as values:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;require &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ostruct&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash &lt;&#x2F;span&gt;&lt;span&gt;= {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a: &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;b: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;}}
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;OpenStruct&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; {b: 1}
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.a.b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; NoMethodError: undefined method &amp;#39;b&amp;#39; for {:b=&amp;gt;1}:Hash
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Moreover, there&#x27;s no way to access the original hash (well, there&#x27;s one but that&#x27;s another point), it might be useful when you need to pass an entire Hash.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;a-solution&quot;&gt;A solution&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;OpenStruct&lt;&#x2F;code&gt; already does a great part fo the &lt;em&gt;dirty job&lt;&#x2F;em&gt;, it only needs some change to get what we need. I called it, &lt;code&gt;DeepStruct&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# deep_struct.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;require &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ostruct&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;DeepStruct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;OpenStruct
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;initialize&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hash&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;nil&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;table &lt;&#x2F;span&gt;&lt;span&gt;= {}
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hash_table &lt;&#x2F;span&gt;&lt;span&gt;= {}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash&lt;&#x2F;span&gt;&lt;span&gt;.each &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;k&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;v&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;        @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;table&lt;&#x2F;span&gt;&lt;span&gt;[k.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_sym&lt;&#x2F;span&gt;&lt;span&gt;] = (v.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;is_a?&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;Hash&lt;&#x2F;span&gt;&lt;span&gt;) ? &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;class&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(v) : v)
+&lt;&#x2F;span&gt;&lt;span&gt;        @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hash_table&lt;&#x2F;span&gt;&lt;span&gt;[k.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_sym&lt;&#x2F;span&gt;&lt;span&gt;] = v
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        new_ostruct_member(k)
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;to_h
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hash_table
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;There&#x27;s not too much to explain here, I&#x27;ve overridden &lt;a href=&quot;http:&#x2F;&#x2F;www.ruby-doc.org&#x2F;stdlib-2.0&#x2F;libdoc&#x2F;ostruct&#x2F;rdoc&#x2F;OpenStruct.html#method-c-new&quot;&gt;OpenStruct#new&lt;&#x2F;a&gt; method to make two basic things:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Iterate the key&#x2F;values of the passed Hash, then:
+&lt;ul&gt;
+&lt;li&gt;initialize a new &lt;code&gt;DeepStruct&lt;&#x2F;code&gt; if a given value is an Hash&lt;&#x2F;li&gt;
+&lt;li&gt;store original key&#x2F;values in @hash_table, so I can retrieve it with &lt;code&gt;#to_h&lt;&#x2F;code&gt; method&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;That&#x27;s all we need, here&#x27;s an example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;require &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;deep_struct&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash &lt;&#x2F;span&gt;&lt;span&gt;= {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a: &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;b: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;}}
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;DeepStruct&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;hash
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; #&amp;lt;DeepStruct b=1&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.a.b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; 1
+&lt;&#x2F;span&gt;&lt;span&gt;mystruct.a.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_h &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# =&amp;gt; {b: 1}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;&#x2F;h3&gt;
+&lt;p&gt;I&#x27;ve said I&#x27;d mainly use this to store configs for my apps, so go back to the initial example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# config&#x2F;initializers&#x2F;_load_config.rb
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;path = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;File&lt;&#x2F;span&gt;&lt;span&gt;.read(&amp;quot;#{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Rails&lt;&#x2F;span&gt;&lt;span&gt;.root}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;config&#x2F;config.yml&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;APP_CONF = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;DeepStruct&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;YAML&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;load&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ERB&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(path).result)[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Rails&lt;&#x2F;span&gt;&lt;span&gt;.env])
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Enjoy and&#x2F;or leave a comment :-)&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>Rails4 StrongParameters with Devise and multiple resources</title>
+            <pubDate>Wed, 27 Mar 2013 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/rails4-strongparameters-devise/</link>
+            <guid>https://pavonz.com/blog/rails4-strongparameters-devise/</guid>
+            <description>&lt;p&gt;First of all, we override the controllers where we need to explicitly authorize params, in this case &lt;code&gt;PasswordsController&lt;&#x2F;code&gt; and &lt;code&gt;RegistrationsController&lt;&#x2F;code&gt; should accept &lt;code&gt;email&lt;&#x2F;code&gt;, &lt;code&gt;password&lt;&#x2F;code&gt; and &lt;code&gt;password_confirmation&lt;&#x2F;code&gt; by default:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# app&#x2F;controllers&#x2F;custom_devise&#x2F;password_controller.rb
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;CustomDevise::PasswordsController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Devise::PasswordsController
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;resource_params
+&lt;&#x2F;span&gt;&lt;span&gt;    params.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;require(resource_name).permit(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:email&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:password&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:password_confirmation&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;private &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:resource_params
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# app&#x2F;controllers&#x2F;custom_devise&#x2F;registrations_controller.rb
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;CustomDevise::RegistrationsController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Devise::RegistrationsController
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;resource_params
+&lt;&#x2F;span&gt;&lt;span&gt;    params.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;require(resource_name).permit(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:email&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:password&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:password_confirmation&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;private &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:resource_params
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Then, we need to tell Devise to use these controllers instead of the default ones:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# config&#x2F;routes.rb
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;devise_for &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:users&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;controllers: &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;registrations: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;custom_devise&#x2F;registrations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;passwords: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;custom_devise&#x2F;passwords&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;devise_for &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:admins&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;controllers: &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;registrations: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;custom_devise&#x2F;registrations&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;passwords: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;custom_devise&#x2F;passwords&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;enjoy :-)&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>jQuery custom plugin skeleton with CoffeeScript</title>
+            <pubDate>Wed, 27 Feb 2013 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/jquery-plugin-skeleton-coffeescript/</link>
+            <guid>https://pavonz.com/blog/jquery-plugin-skeleton-coffeescript/</guid>
+            <description>&lt;p&gt;This snippet might be used as a skeleton for simple jQuery plugins to be used inside your web apps:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;coffee&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-coffee &quot;&gt;&lt;code class=&quot;language-coffee&quot; data-lang=&quot;coffee&quot;&gt;&lt;span&gt;# jQuery custom plugin skeleton with CoffeeScript
+&lt;&#x2F;span&gt;&lt;span&gt;class MyPlugin
+&lt;&#x2F;span&gt;&lt;span&gt;  someMethod: (args) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    # do something
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  constructor: (element, params) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    @someMethod(some_args)
+&lt;&#x2F;span&gt;&lt;span&gt;    # do something
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# install in the window namespace
+&lt;&#x2F;span&gt;&lt;span&gt;window.MyPlugin = MyPlugin
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# create jQuery plugin
+&lt;&#x2F;span&gt;&lt;span&gt;$.fn.myPlugin = (params) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  new MyPlugin($(@), params)
+&lt;&#x2F;span&gt;&lt;span&gt;  return $(@)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;# Usage:
+&lt;&#x2F;span&gt;&lt;span&gt;# $(&amp;#39;#element&amp;#39;).myPlugin(params)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;&#x2F;strong&gt; also check discussions on this &lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;andreapavoni&#x2F;5064928&quot;&gt;gist&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>3 weeks with a kindle</title>
+            <pubDate>Tue, 17 Apr 2012 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/3-weeks-with-a-kindle/</link>
+            <guid>https://pavonz.com/blog/3-weeks-with-a-kindle/</guid>
+            <description>&lt;p&gt;When I unpacked it, I was already impressed by its &lt;em&gt;frugal but elegant packaging&lt;&#x2F;em&gt;, a sort of recycled cardboard, but the real surprise was about its protective foil: the &lt;em&gt;quick start&lt;&#x2F;em&gt; istructions were showed up on display, not on the foil. This gave me a first taste of the kindle&#x27;s display capabilities.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;what-i-found-really-cool&quot;&gt;What I found really cool&lt;&#x2F;h3&gt;
+&lt;p&gt;Just as a disclaimer, I&#x27;m speaking about &lt;em&gt;my thoughts&lt;&#x2F;em&gt; on kindle, if you&#x27;re looking for a more detailed review, I think the web is full of articles on this topic, probably better than mine.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;portability&quot;&gt;Portability&lt;&#x2F;h4&gt;
+&lt;p&gt;It might look obvious, but for me it was a surprise. I&#x27;ve loaded some ebooks I already purchased on &lt;a href=&quot;http:&#x2F;&#x2F;pragprog.com&quot;&gt;my preferred bookstore&lt;&#x2F;a&gt; and in few seconds I had a bookshelf in my hands. This is very useful when I want to select a book based on my mood or need in a particular moment of the day (after lunch, during relax, at the toilet...).&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;money-saving&quot;&gt;Money saving&lt;&#x2F;h4&gt;
+&lt;p&gt;You know, I&#x27;m a passionate developer. This means that I&#x27;m always in a &lt;em&gt;learn new stuff&lt;&#x2F;em&gt; mode, I buy a lot of books on various arguments (mostly on programming, productivity, etc). Buying paper books means long waitings (from 2 up to 15 working days) and higher prices (yes, shipping and paper have a cost). Now I can purchase an ebook, saving around 40-50% of costs and 100% of time, because they can be sent to my kindle in a matter of seconds (throught a WiFi connection).&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;reading-at-the-maximum-speed&quot;&gt;Reading at the maximum speed&lt;&#x2F;h4&gt;
+&lt;p&gt;Believe it or not, in three weeks I studied three ebooks and a half, dedicating from 5 minutes to 1 hour for each session. I only know that I&#x27;ve never reached these results with a paper book. But there&#x27;s more. Another cool kindle&#x27;s feature (perhaps of any other ebook reader) is the ability to highlight text and to add annotations. These are directly accessible from the kindle&#x27;s &lt;em&gt;main page&lt;&#x2F;em&gt;, so you can get a fast look on the important things.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yes-you-can-read-pdfs-but&quot;&gt;Yes, you can read PDFs, but...&lt;&#x2F;h3&gt;
+&lt;p&gt;Another frequently asked question is about PDF support: it just works, but without some features, like links in the Table of Contents. I also tried &lt;a href=&quot;http:&#x2F;&#x2F;calibre-ebook.com&#x2F;&quot;&gt;calibre&lt;&#x2F;a&gt;: it is an excellent tool to manage your virtual bookshelf, it&#x27;s also able to &lt;em&gt;convert&lt;&#x2F;em&gt; an ebook to other formats (like PDF -&amp;gt; mobi). However, when I try some conversion, I&#x27;ve noted a lot of flaws:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;there are links in Table Of Contents, but they don&#x27;t work&lt;&#x2F;li&gt;
+&lt;li&gt;code snippets (or similar pieces of text) are &lt;em&gt;ugly&lt;&#x2F;em&gt; (no indentation, crappy fonts, etc...)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;From my point of view, it&#x27;s totally useless. Maybe it&#x27;s ok for articles and novels, not to study technical books.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;conclusions&quot;&gt;Conclusions&lt;&#x2F;h3&gt;
+&lt;p&gt;Well, there isn&#x27;t a real conclusion :P I&#x27;m happy with my kindle, I enjoy its &lt;em&gt;advantages&lt;&#x2F;em&gt; (at least for my niche case) and I tried to show you my experience with it. I hope you&#x27;ll find useful hints in case you&#x27;re undecided ;)&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>Using one carrierwave image uploader with different sizes on several models</title>
+            <pubDate>Mon, 19 Mar 2012 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/single-carrierwave-uploader-on-several-models/</link>
+            <guid>https://pavonz.com/blog/single-carrierwave-uploader-on-several-models/</guid>
+            <description>&lt;p&gt;First of all, a typical use case:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;2 or more models with some image to upload, each model needs different image sizes. For example, you might need images for user&#x27;s avatar, photo galleries and&#x2F;or screenshots.&lt;&#x2F;li&gt;
+&lt;li&gt;using the awesome &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jnicklas&#x2F;carrierwave&quot;&gt;carrierwave&lt;&#x2F;a&gt; gem&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The &lt;em&gt;common&lt;&#x2F;em&gt; solution is to have several &lt;em&gt;image uploaders&lt;&#x2F;em&gt;, often with fancy names to distinguish them. I didn&#x27;t like this approach, so why don&#x27;t use some metaprogramming? ;-)&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;ve used this solution on a commercial project with enough satisfaction, the mayor advantages are:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;DRY code: it doesn&#x27;t make sense to have several &lt;em&gt;image uploaders&lt;&#x2F;em&gt; just because you need different sizes on each model&lt;&#x2F;li&gt;
+&lt;li&gt;embrace conventions: you pick some decent &lt;em&gt;version names&lt;&#x2F;em&gt; (eg. &lt;em&gt;thumb&lt;&#x2F;em&gt;, &lt;em&gt;mini&lt;&#x2F;em&gt;, &lt;em&gt;main&lt;&#x2F;em&gt;, and so on) and reuse them contextually to the model.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;To get an instant picture of what we&#x27;re going to achieve, here&#x27;s the custom &lt;code&gt;ImageUploader&lt;&#x2F;code&gt;, I&#x27;ve removed some autogenerated code, you should already know how to use it. Check the comments inside it:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ImageUploader &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CarrierWave::Uploader::Base
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# use mini_magic gem for image processing
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;include &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;CarrierWave&lt;&#x2F;span&gt;&lt;span&gt;::MiniMagick
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# call setup_available_size method before cache image
+&lt;&#x2F;span&gt;&lt;span&gt;  before &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:cache&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:setup_available_sizes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;store_dir
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ...
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;default_url
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ...
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# we process images with a custom method (read above)
+&lt;&#x2F;span&gt;&lt;span&gt;  process &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:dynamic_resize_to_fit &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:default
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# default processing, we assume that each model has a &amp;quot;mini&amp;quot; version
+&lt;&#x2F;span&gt;&lt;span&gt;  version &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:mini &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do
+&lt;&#x2F;span&gt;&lt;span&gt;    process &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:dynamic_resize_to_fit &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:mini
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# conditional processing: we process &amp;quot;thumb&amp;quot; version only if it was defined in model
+&lt;&#x2F;span&gt;&lt;span&gt;  version &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:thumb&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:if &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:has_thumb_size? &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do
+&lt;&#x2F;span&gt;&lt;span&gt;    process &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:dynamic_resize_to_fit &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:thumb
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;extension_white_list
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ...
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;sanitize_regexp
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ...
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# a lame wrapper to resize_to_fit method
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;dynamic_resize_to_fit&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;size&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    resize_to_fit *(model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;class&lt;&#x2F;span&gt;&lt;span&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;IMAGE_SIZES&lt;&#x2F;span&gt;&lt;span&gt;[size])
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# here&amp;#39;s the metaprogramming magic!
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# we check if the called method matches &amp;quot;has_VERSION_size?&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# VERSION is a version name for image size
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;method_missing&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;method&lt;&#x2F;span&gt;&lt;span&gt;, *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;args&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# we&amp;#39;ve already defined &amp;quot;has_VERSION_size?&amp;quot;, so if a method with
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# similar name is missed, it should return false
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;false &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;method&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_s&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt;(&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;has_(.*)_size\?&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;super
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;protected
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# the method called at the start
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# it checks for &amp;lt;model&amp;gt;::IMAGE_SIZES hash and define a custom method &amp;quot;has_VERSION_size?&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# (more on this later in the article)
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;setup_available_sizes&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;file&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;class&lt;&#x2F;span&gt;&lt;span&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;IMAGE_SIZES&lt;&#x2F;span&gt;&lt;span&gt;.keys.each &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;key&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;class_eval &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;define_method&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;has_&lt;&#x2F;span&gt;&lt;span&gt;#{key}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_size?&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_sym&lt;&#x2F;span&gt;&lt;span&gt;) { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true &lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And now, some models, each with the same &lt;code&gt;ImageUploader&lt;&#x2F;code&gt; and a &lt;code&gt;IMAGE_SIZES&lt;&#x2F;code&gt; Hash containing same keys, but different image sizes:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# app&#x2F;models&#x2F;photo.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Photo &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ActiveRecord::Base
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# custom image sizes: each key is a version name
+&lt;&#x2F;span&gt;&lt;span&gt;  IMAGE_SIZES = {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:default &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1280&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1280&lt;&#x2F;span&gt;&lt;span&gt;],
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:mini &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;300&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;900&lt;&#x2F;span&gt;&lt;span&gt;],
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:thumb &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;300&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  mount_uploader &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:image&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ImageUploader
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ...
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# app&#x2F;models&#x2F;product.rb
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Product &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ActiveRecord::Base
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# other images sizes: same keys, different sizes
+&lt;&#x2F;span&gt;&lt;span&gt;  IMAGE_SIZES = {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:default &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;700&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;700&lt;&#x2F;span&gt;&lt;span&gt;],
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:mini &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;300&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;300&lt;&#x2F;span&gt;&lt;span&gt;],
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:thumb &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  mount_uploader &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:image&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ImageUploader
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ...
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;As you can see, the key part relies on three methods:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;setup_available_sizes&lt;&#x2F;code&gt;: it defines some helper methods, according to the versions that where specified in models. That&#x27;s why it gets called before processing and storage of the uploaded file. Did you notice that this method accepts a &lt;em&gt;file&lt;&#x2F;em&gt; argument? It&#x27;s not a typo, but it&#x27;s because Carrierwave always passes that object to its callbacks (check the code &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jnicklas&#x2F;carrierwave&#x2F;blob&#x2F;master&#x2F;lib&#x2F;carrierwave&#x2F;uploader&#x2F;cache.rb#L112&quot;&gt;here&lt;&#x2F;a&gt; and &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jnicklas&#x2F;carrierwave&#x2F;blob&#x2F;master&#x2F;lib&#x2F;carrierwave&#x2F;uploader&#x2F;callbacks.rb#L15&quot;&gt;here&lt;&#x2F;a&gt;, it&#x27;s &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jnicklas&#x2F;carrierwave&#x2F;wiki&#x2F;How-to%3A-use-callbacks&quot;&gt;not documented&lt;&#x2F;a&gt;). If you try to omit it, you&#x27;ll get a &lt;code&gt;ArgumentError&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;method_missing&lt;&#x2F;code&gt;: it doesn&#x27;t need too much explanation (or go to read &lt;a href=&quot;http:&#x2F;&#x2F;pragprog.com&#x2F;book&#x2F;ppmetr&#x2F;metaprogramming-ruby&quot;&gt;this book&lt;&#x2F;a&gt;, now!), it should be enough to know that in this case, we use it to check if a given model, has defined a particular version (through the &lt;code&gt;setup_available_sizes&lt;&#x2F;code&gt; method we&#x27;ve seen above). In fact, &lt;code&gt;method_missing&lt;&#x2F;code&gt; is called &lt;em&gt;if and only if&lt;&#x2F;em&gt; there isn&#x27;t a &lt;code&gt;has_VERSION_size?&lt;&#x2F;code&gt; defined. That&#x27;s why it returns &lt;em&gt;false&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;dynamic_resize_to_fit&lt;&#x2F;code&gt;: this is a simple wrapper to the carrierwave&#x27;s &lt;code&gt;resize_to_fit&lt;&#x2F;code&gt; method. Instead of passing &lt;em&gt;width&lt;&#x2F;em&gt; and &lt;em&gt;height&lt;&#x2F;em&gt; values, we pass a &lt;em&gt;version name&lt;&#x2F;em&gt;, so it can lookup the relative sizes from the model. To be honest, this approach is quite lame, because you can use some more &lt;em&gt;motaprogramming fu&lt;&#x2F;em&gt; to dynamically wrap carrierwave&#x27;s &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jnicklas&#x2F;carrierwave&#x2F;blob&#x2F;master&#x2F;lib&#x2F;carrierwave&#x2F;processing&#x2F;mini_magick.rb&quot;&gt;processor methods&lt;&#x2F;a&gt;. Now you have a decent excuse to play with something after you&#x27;ve finished to read ;-)&lt;&#x2F;p&gt;
+&lt;p&gt;That&#x27;s all, folks!&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>A new blog, more fun</title>
+            <pubDate>Tue, 13 Mar 2012 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/a-new-blog-more-fun/</link>
+            <guid>https://pavonz.com/blog/a-new-blog-more-fun/</guid>
+            <description>&lt;h4 id=&quot;a-bit-of-history&quot;&gt;A bit of history&lt;&#x2F;h4&gt;
+&lt;p&gt;Until today, I&#x27;ve used &lt;a href=&quot;http:&#x2F;&#x2F;tumblr.com&quot;&gt;tumblr&lt;&#x2F;a&gt; for blogging, however I wasn&#x27;t too much happy with it, I don&#x27;t use all that features (photos, links, and so on), instead I need some more &lt;em&gt;power&lt;&#x2F;em&gt; when writing tech articles. That&#x27;s also why I didn&#x27;t write too much: every time I got some useful thing to say, I didn&#x27;t want to go on tumblr.&lt;&#x2F;p&gt;
+&lt;p&gt;After some thought, I decided to write my own blog engine, it was a decent excuse to play with &lt;em&gt;cool toys&lt;&#x2F;em&gt;. Then, a month ago I purchased a VPS on &lt;a href=&quot;http:&#x2F;&#x2F;linode.com&quot;&gt;Linode&lt;&#x2F;a&gt; and started playing with (well known) tools and solutions that I&#x27;ve never used, such as &lt;a href=&quot;http:&#x2F;&#x2F;archlinux.org&quot;&gt;Arch linux&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;defunkt&#x2F;unicorn&quot;&gt;unicorn&lt;&#x2F;a&gt; and &lt;a href=&quot;http:&#x2F;&#x2F;mmonit.com&#x2F;monit&#x2F;&quot;&gt;monit&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;ve also imported some article from my &lt;a href=&quot;http:&#x2F;&#x2F;andreapavoni.tumblr.com&quot;&gt;previous blog&lt;&#x2F;a&gt;, as you can see, they were very rare, expect some more writings in the near future ;-)&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>Store Rails views on database</title>
+            <pubDate>Sun, 12 Jun 2011 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/store-rails-views-on-database/</link>
+            <guid>https://pavonz.com/blog/store-rails-views-on-database/</guid>
+            <description>&lt;p&gt;The ideal way is to store views on a database, indeed there are some CMSs that solve this problem with similar approaches, like &lt;a href=&quot;http:&#x2F;&#x2F;radiantcms.org&#x2F;&quot;&gt;Radiant&lt;&#x2F;a&gt; and &lt;a href=&quot;http:&#x2F;&#x2F;www.locomotivecms.com&#x2F;&quot;&gt;Locomotive&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;However, I wanted something that let me to reuse this feature on several projects (because a custom CMS may have different features), and to store only certain views, according to specific content and needs.&lt;&#x2F;p&gt;
+&lt;p&gt;So, I’ve developed &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andreapavoni&#x2F;panoramic&quot;&gt;Panoramic&lt;&#x2F;a&gt;, a simple gem inspired from some ideas found in José Valim’s excellent book &lt;a href=&quot;http:&#x2F;&#x2F;pragprog.com&#x2F;titles&#x2F;jvrails&#x2F;crafting-rails-applications&quot;&gt;Crafting Rails Applications&lt;&#x2F;a&gt;. Simply put, once Panoramic is installed, you can store your views on database. It works through an implemetation of &lt;code&gt;ActionView::Resolver&lt;&#x2F;code&gt; class: Rails will lookup views as if they were on filesystem. In controller, you’ll tell where and when to use those views, using &lt;code&gt;prepend_view_path&lt;&#x2F;code&gt; and &lt;code&gt;append_view_path&lt;&#x2F;code&gt; on a controller or action basis (they are both implemented as class and instance methods). Depending from the method you’ll use, Rails will respectively look for views on database, then it will fallback on filesystem, or viceversa. Quite easy, right?&lt;&#x2F;p&gt;
+&lt;p&gt;I’ll not show any code here, because there’s a full explanation on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;andreapavoni&#x2F;panoramic&#x2F;blob&#x2F;master&#x2F;README.md&quot;&gt;Panoramic’s README&lt;&#x2F;a&gt;. As a final note, at the moment it works only with ActiveRecord, but I’ve planned to extend support to DataMapper and Mongoid as soon as possible. It’s very easy to implement, the main problem is about testing: maybe I’ll write some rspec’s custom matchers to reuse with different ORMs, like &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;jnicklas&#x2F;carrierwave&quot;&gt;carrierwave&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>Rails 3: An improved agnostic search model using Arel</title>
+            <pubDate>Mon, 05 Jul 2010 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/rails-3-improved-arel-search/</link>
+            <guid>https://pavonz.com/blog/rails-3-improved-arel-search/</guid>
+            <description>&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Search
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;attr_accessor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:attributes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;initialize&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;model&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attrs &lt;&#x2F;span&gt;&lt;span&gt;= {})
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attributes &lt;&#x2F;span&gt;&lt;span&gt;= {}
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;model &lt;&#x2F;span&gt;&lt;span&gt;= model
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;arel &lt;&#x2F;span&gt;&lt;span&gt;= model.arel_table
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    model.columns.each &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;field&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      pattr = field.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;name
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      attrs = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;Hash&lt;&#x2F;span&gt;&lt;span&gt;[attrs.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;select &lt;&#x2F;span&gt;&lt;span&gt;{|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;k&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;v&lt;&#x2F;span&gt;&lt;span&gt;| !v.empty? }]
+&lt;&#x2F;span&gt;&lt;span&gt;      searchable = !attrs[pattr].&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;nil?
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attributes&lt;&#x2F;span&gt;&lt;span&gt;[pattr.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_sym&lt;&#x2F;span&gt;&lt;span&gt;] = attrs[pattr] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; searchable
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;class&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:define_method&lt;&#x2F;span&gt;&lt;span&gt;,field.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cond&lt;&#x2F;span&gt;&lt;span&gt;, *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;attr &lt;&#x2F;span&gt;&lt;span&gt;= field.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_sym
+&lt;&#x2F;span&gt;&lt;span&gt;        value = value.first || @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attributes&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;attr&lt;&#x2F;span&gt;&lt;span&gt;] || &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;nil
+&lt;&#x2F;span&gt;&lt;span&gt;        @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;model &lt;&#x2F;span&gt;&lt;span&gt;= @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;model&lt;&#x2F;span&gt;&lt;span&gt;.where(@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;arel&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;attr&lt;&#x2F;span&gt;&lt;span&gt;].&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span&gt;(cond,value)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; searchable
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if block_given?
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;yield &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;result
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;model
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The constructor takes the model you want to search in, and an hash of params to use, they’ll be the request params when used from controller. Note that if some param value is an empty string, it will be ignored: this lets the visitor to leave blank some fields in the search form and make it conditional.&lt;&#x2F;p&gt;
+&lt;p&gt;To save typings, when specifying conditions, you can omit the value, because it’s taken from the params hash. By the way, if you need some more control, you can specify another value. Finally, you can pass a block to make it easier to read. Here’s a real usage example from a controller:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;RealtyRequestController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ApplicationController
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#... other actions ...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;search
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# value to search defaults to params[:search][:contract_id]
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;s &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Search&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RealtyRequest&lt;&#x2F;span&gt;&lt;span&gt;,params[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:search&lt;&#x2F;span&gt;&lt;span&gt;]) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;s&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      s.contract_id &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:eq
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# same here
+&lt;&#x2F;span&gt;&lt;span&gt;      s.price_max &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:lteq
+&lt;&#x2F;span&gt;&lt;span&gt;      s.price_min &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:gteq
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# here I look for &amp;#39;%param%&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;      s.zone &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:matches&lt;&#x2F;span&gt;&lt;span&gt;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;#{params[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:search&lt;&#x2F;span&gt;&lt;span&gt;][&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:zone&lt;&#x2F;span&gt;&lt;span&gt;]}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      s.province &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:matches&lt;&#x2F;span&gt;&lt;span&gt;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;#{params[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:search&lt;&#x2F;span&gt;&lt;span&gt;][&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:province&lt;&#x2F;span&gt;&lt;span&gt;]}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      s.municipality &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:matches&lt;&#x2F;span&gt;&lt;span&gt;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;#{params[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:search&lt;&#x2F;span&gt;&lt;span&gt;][&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:municipality&lt;&#x2F;span&gt;&lt;span&gt;]}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      s.rooms &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:eq
+&lt;&#x2F;span&gt;&lt;span&gt;      s.mq &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:eq
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# assign result
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;realty_requests &lt;&#x2F;span&gt;&lt;span&gt;= @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;s&lt;&#x2F;span&gt;&lt;span&gt;.result
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# add order option
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;realty_requests&lt;&#x2F;span&gt;&lt;span&gt;.order(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:created_at&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ... other rendering stuff ...
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;When &lt;code&gt;Search#result&lt;&#x2F;code&gt; is called a model instance is returned, it can still be ordered. According to &lt;a href=&quot;http:&#x2F;&#x2F;github.com&#x2F;rails&#x2F;arel#readme&quot;&gt;Arel&#x27;s README&lt;&#x2F;a&gt;, there’s no support for &lt;em&gt;OR&lt;&#x2F;em&gt; conditions yet, I hope it will be included soon.&lt;&#x2F;p&gt;
+</description>
+        </item>
+        <item>
+            <title>Rails3: using Arel to make conditional searches based on conditional params</title>
+            <pubDate>Wed, 30 Jun 2010 00:00:00 +0000</pubDate>
+            <link>https://pavonz.com/blog/rails3-arel-conditional-searches/</link>
+            <guid>https://pavonz.com/blog/rails3-arel-conditional-searches/</guid>
+            <description>&lt;p&gt;I wrote a basic model called Search, I can re-use it for other models that need search features:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# put this in app&#x2F;models&#x2F;search.rb
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Search
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;attr_accessor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:attributes
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;initialize&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attributes &lt;&#x2F;span&gt;&lt;span&gt;= {})
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attributes &lt;&#x2F;span&gt;&lt;span&gt;= attributes
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;attributes&lt;&#x2F;span&gt;&lt;span&gt;.each &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;k&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;v&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;class&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:define_method&lt;&#x2F;span&gt;&lt;span&gt;,k) { v }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Then I wrote a partial form with params, the following code is only an example, I have more fields:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;&amp;lt;div id=&amp;quot;searchform&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;%= form_tag search_people_path, :method =&amp;gt; &amp;#39;get&amp;#39; do |f| %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;div class=&amp;quot;field&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= label :search, :firstname, &amp;#39;Firstname&amp;#39; %&amp;gt;&amp;lt;br &#x2F;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= text_field :search, :firstname %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;div class=&amp;quot;field&amp;quot;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= label :search, :lastname, &amp;#39;Lastname&amp;#39; %&amp;gt;&amp;lt;br &#x2F;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;%= text_field :search, :lastname %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;lt;%= submit_tag &amp;quot;Search&amp;quot; %&amp;gt; &amp;lt;% end %&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;div&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Finally the controller action called ‘search’. As you can see, the difficult part was that you don’t know which params are passed by the request, so you need to specify conditions only if they are present. Arel helped to resolve this problem:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ruby&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ruby &quot;&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;PeopleController &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;&amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ApplicationController
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ... other CRUD actions ...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;search
+&lt;&#x2F;span&gt;&lt;span&gt;    q = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Person&lt;&#x2F;span&gt;&lt;span&gt;.arel_table &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# initialize Arel table
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;people &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Person&lt;&#x2F;span&gt;&lt;span&gt;.order(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:created_at&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# start with a simple option
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# initialize Search model with the search params
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;search &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Search&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;new&lt;&#x2F;span&gt;&lt;span&gt;(params[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:search&lt;&#x2F;span&gt;&lt;span&gt;])
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# apply conditions only if they are present
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;people &lt;&#x2F;span&gt;&lt;span&gt;= @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;people&lt;&#x2F;span&gt;&lt;span&gt;.where(q[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:lastname&lt;&#x2F;span&gt;&lt;span&gt;].matches(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;#{@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;search&lt;&#x2F;span&gt;&lt;span&gt;.lastname}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;search&lt;&#x2F;span&gt;&lt;span&gt;.lastname
+&lt;&#x2F;span&gt;&lt;span&gt;    @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;people &lt;&#x2F;span&gt;&lt;span&gt;= @&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;people&lt;&#x2F;span&gt;&lt;span&gt;.where(q[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:firstname&lt;&#x2F;span&gt;&lt;span&gt;].matches(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;#{@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;search&lt;&#x2F;span&gt;&lt;span&gt;.firstname}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;%&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;search&lt;&#x2F;span&gt;&lt;span&gt;.firstname
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# render index action, it&amp;#39;s the same output, just filtered by conditions passed
+&lt;&#x2F;span&gt;&lt;span&gt;    render &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;:index
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Probably it’s not the best solution, perhaps this could be optimized with some helper, but it works, and helps to figure out how Arel works.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;webografy&quot;&gt;Webografy:&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.slideshare.net&#x2F;GreggPollack&#x2F;rails-3-beautiful-code-3219240&quot;&gt;Greg Pollack: Rails 3 Beautiful Code&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;railscasts.com&#x2F;episodes&#x2F;215-advanced-queries-in-rails-3&quot;&gt;Ryan Bates: Advanced Queries in Rails 3&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+        </item>
+    </channel>
+</rss>

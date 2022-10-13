@@ -1,0 +1,165 @@
+/* This file is for your main application CSS */
+@import "base";
+
+@font-face {
+  font-family: "PressStart2P";
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SourceCodePro-Italic";
+  src: url("/fonts/SourceCodePro-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 400 900;
+  font-stretch: 75% 125%;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SourceCodePro";
+  src: url("/fonts/SourceCodePro-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
+/* CSS variables */
+$main-font: "SourceCodePro", monospace;
+$accent-color: #4b0b8e;
+$link-color: $accent-color;
+$link-hover-color: #8942d4;
+$header-color: #474747;
+
+body {
+  color: #383838;
+  background-color: #fefbf1;
+  font-family: $main-font;
+}
+
+header section {
+  flex-direction: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $header-color;
+  font-weight: 900;
+  font-size: 30px;
+}
+
+a {
+  color: $accent-color;
+  border-bottom: dashed 1px $accent-color;
+}
+a:focus,
+a:hover {
+  color: $link-hover-color;
+}
+
+pre {
+  border-left: 0.3rem solid $accent-color;
+}
+
+code.inline {
+  border: solid 1px #696969;
+}
+
+.root h1 a,
+header nav a {
+  border-bottom: none;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+article header h2 {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+article header a {
+  border-bottom: none;
+}
+
+header,
+footer {
+  font-family: $main-font;
+}
+
+article {
+  border-bottom: 1px solid #eaeaea;
+}
+
+article:last-child {
+  border-bottom: none;
+}
+
+section article header {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 20px;
+}
+
+section.content article header h2 {
+  border-bottom: none;
+  margin-bottom: 1rem;
+  padding-bottom: 0;
+}
+
+section.content {
+  margin-top: 5rem;
+}
+
+section.content h2 {
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: solid 1px #cecece;
+}
+
+section.content h2 a,
+section.content h3 a {
+  border-bottom: none;
+}
+
+header.root {
+  border-bottom: 1px solid #cecece;
+}
+
+footer.root {
+  border-top: 1px solid #cecece;
+  color: #696969;
+}
+
+.hearth {
+  color: rgb(199, 5, 5);
+  font-size: 15px;
+  text-transform: none;
+  font-style: normal;
+  display: inline-flex;
+}
+
+.phx-hero {
+  border: none;
+  background: inherit;
+  line-height: 1;
+  padding: 3em 1em 1em;
+}
+
+.phx-hero h3 {
+  margin-bottom: 0.5rem;
+}
+
+.phx-hero p {
+  font-weight: 500;
+  font-size: larger;
+  margin-bottom: 0.7rem;
+}
+
+.home article h3 {
+  margin-bottom: 1rem;
+  letter-spacing: normal;
+  word-spacing: -0.6ch;
+}

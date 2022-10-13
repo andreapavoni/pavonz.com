@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pavonz.com</title>
+    <link rel="stylesheet" href="https://pavonz.com/app.css" />
+  </head>
+  <body>
+    <header class="root">
+      <section class="container">
+        <nav>
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog">blog</a></li>
+          </ul>
+        </nav>
+        <h1><a href="/">~/pavonz</a></h1>
+      </section>
+    </header>
+
+    <main class="container">
+<h1 class="title">A rails 4 tutorial application for beginners</h1>
+<p class="subtitle"><strong>2013-08-20</strong></p>
+<h3 id="intro">Intro</h3>
+<p>Unless you lived under a rock in the past 5 years or so, you should have already heard of <a href="http://rubyonrails.org">Ruby on Rails</a>. In this article, we'll write a very simple web application with it to show its power and speed of development.</p>
+<p>We'll cover the following topics:</p>
+<ul>
+<li>install Ruby</li>
+<li>install the rails gem</li>
+<li>how to start a new rails project</li>
+<li>directory structure of a rails project</li>
+<li>how to manage data with a database</li>
+<li>use already available components to handle common tasks</li>
+<li>add CRUD resources</li>
+<li>improve the app flawlessy</li>
+</ul>
+<h3 id="quick-setup">Quick setup</h3>
+<p>The following section offers a very quick overview of the tools you need to get started with Ruby on Rails development. If you already have a working rails environment, excluding the default ruby installation that some operating systems have, then feel free to skip the steps.</p>
+<h4 id="install-ruby">Install Ruby</h4>
+<p>If you run Linux or MacOSX on your computer, you may already have Ruby installed by default, however these kind of installations are out of date (eg: ruby 1.8.x) and <em>gems</em> are difficult to manage. The best way is to install it manually or just use some tool that helps to manage custom Ruby installations, even multiple versions (eg: 1.9.x and 2.0.0 releases).</p>
+<p>Instead of repeating what others have already said, I will link some useful guides:</p>
+<ul>
+<li>MacOSX: <a href="http://createdbypete.com/articles/ruby-on-rails-development-with-mac-os-x-mountain-lion/">Ruby on Rails development with Mac OS X Mountain Lion</a>. Follow the steps until you reach <em>Install SQLite3</em> section, we'll see here how to install rails.</li>
+<li>Linux: <a href="http://gorails.com/setup/ubuntu">Setup Ruby On Rails on Ubuntu 13.04</a>. Same as above, follow the steps until you reach <em>Configuring Git</em>.</li>
+<li>Windows: <a href="http://www.ruby-forum.com/topic/4413168">SQLite3 Ruby 2.0 on Windows</a> and <a href="http://kylecordes.com/2008/git-windows-go">Getting Started with Git and GitHub on Windows</a>. I haven't too much experience on windows, so keep the finger crossed and/or ask on the same forum thread. The Ruby community is very kind :-)</li>
+</ul>
+<p>Now, you should have all the requirements to get started.</p>
+<h4 id="install-bundler-gem">Install Bundler gem</h4>
+<p><a href="http://gembundler.com">Bundler</a> is a <a href="http://guides.rubygems.org">Ruby gem</a> that helps you to manage development dependencies in a project. We'll see how it works later, for now, just install it:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>gem install bundler
+</span><span>
+</span></code></pre>
+<h4 id="install-rails-v4-0-0-gem">Install Rails v4.0.0 gem</h4>
+<p>We're going to use the upcoming new version of rails. At the time of writing (mid june 2013), it's the <em>2nd Release Candidate</em> but, according to its author, <a href="https://twitter.com/dhh/status/344819888566702081">it should be enough stable</a>.</p>
+<p><strong>EDIT:</strong> rails 4.0.0 is out, so don't use rc2.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">gem</span><span> install rails</span><span style="color:#bf616a;"> -v4</span><span>.0.0
+</span></code></pre>
+<h3 id="a-simple-web-application-to-manage-and-share-bookmarks">A simple web application to manage and share bookmarks</h3>
+<p>Someone says that <em>doing it is the best way to learn</em>, so here's a <em>less common</em> tutorial app: a simple platform to manage or share bookmarks. It's nothing fancy, but it's enough to apply some basic concepts. Moreover, aren't you bored about <em>todo lists</em> and <em>blog engines</em> over and over? :-)</p>
+<h4 id="create-the-rails-app">Create the rails app</h4>
+<p>When you install rails, it comes with a bunch of other libraries and/or command line tools. The main one is <code>rails</code>. For now, we'll use it to generate the initial skeleton:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rails</span><span> new bookmarks</span><span style="color:#bf616a;"> -T -d</span><span> sqlite3</span><span style="color:#bf616a;"> -B
+</span></code></pre>
+<p>I've also passed some arguments to the command:</p>
+<ul>
+<li><code>-T</code>: skip <code>Test::Unit</code> files. It's not fundamental for our purposes (but they are in the everyday Ruby <em>and</em> Rails development), so I skipped them because <em>testing</em> is an argument apart and I don't want to overcomplicate this article.</li>
+<li><code>-d sqlite3</code>: we want to use <a href="http://www.sqlite.org">SQLite</a> database. It fits perfectly for our purposes. Please note that, Rails has support for a wide variety of databases, even NoSQL ones. It's also common to have different database engines based on the environment (eg: SQLite for development, MySQL or PostgreSQL for production, etc...) without code changes.</li>
+<li><code>-B</code>: don't run <code>bundle install</code>, we'll do it manually later.</li>
+</ul>
+<p>Once you run the command, you should see a long list of lines that explain what is happening:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos % rails new bookmarks</span><span style="color:#bf616a;"> -T -d</span><span> sqlite3</span><span style="color:#bf616a;"> -B
+</span><span style="color:#bf616a;">create
+</span><span style="color:#bf616a;">create</span><span> README.rdoc
+</span><span style="color:#bf616a;">create</span><span> Rakefile
+</span><span style="color:#bf616a;">create</span><span> config.ru
+</span><span style="color:#bf616a;">create</span><span> .gitignore
+</span><span style="color:#bf616a;">create</span><span> Gemfile
+</span><span style="color:#bf616a;">create</span><span> app
+</span><span style="color:#bf616a;">[...]
+</span><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos % cd bookmarks
+</span><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks %
+</span></code></pre>
+<p>A new directory called <code>bookmarks</code> (or whatever name you passed) has been created, along with a set of files and directories inside it. Enter this directory, we'll see the important contents during the article.</p>
+<h4 id="a-first-look-at-bundler-and-gemfile">A first look at Bundler and Gemfile</h4>
+<p>We mentioned Bundler as a tool to manage development dependencies in a Ruby app. It works by reading a file called <code>Gemfile</code> that should be present in the root directory of the app. You need this to make sure all the required gems are installed, even rails itself. Here's a brief look at the Gemfile generated by the <code>rails new</code> command:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span>source &#39;</span><span style="color:#a3be8c;">https://rubygems.org</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;"># Our rails version
+</span><span>
+</span><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">rails</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">4.0.0</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;"># Use sqlite3 as the database for Active Record
+</span><span>
+</span><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">sqlite3</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;"># Use SCSS for stylesheets
+</span><span>
+</span><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">sass-rails</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">~&gt; 4.0.0</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;"># Use Uglifier as compressor for JavaScript assets
+</span><span>
+</span><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">uglifier</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">&gt;= 1.3.0</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;"># Use CoffeeScript for .js.coffee assets and views
+</span><span>
+</span><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">coffee-rails</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">~&gt; 4.0.0
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;"># Uncomment this if you haven</span><span>&#39;</span><span style="color:#8fa1b3;">t a nodejs </span><span>and</span><span style="color:#8fa1b3;"> coffeescript installed
+</span><span>
+</span><span style="color:#65737e;"># gem &#39;therubyracer&#39;, platforms: :ruby
+</span><span>
+</span><span>[...]
+</span></code></pre>
+<p>As you can see, this is the default list of gems you need to start working on a Rails project. Of course, you'll change it very often to add, remove or upgrade gems.</p>
+<p>Now you can finally run <code>bundle install</code> (the command we skipped by specifying <code>-B</code>):</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % bundle install
+</span><span style="color:#bf616a;">Fetching</span><span> gem metadata from https://rubygems.org/..........
+</span><span style="color:#bf616a;">Fetching</span><span> gem metadata from https://rubygems.org/..
+</span><span style="color:#bf616a;">Resolving</span><span> dependencies...
+</span><span style="color:#bf616a;">Using</span><span> rake (10.0.4)
+</span><span style="color:#bf616a;">Installing</span><span> i18n (0.6.4)
+</span><span style="color:#bf616a;">[...]
+</span><span style="color:#bf616a;">Your</span><span> bundle is complete!
+</span><span style="color:#bf616a;">Use </span><span>`</span><span style="color:#bf616a;">bundle</span><span> show </span><span style="color:#b48ead;">[</span><span>gemname</span><span style="color:#b48ead;">]</span><span>` to see where a bundled gem is installed.
+</span><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks %
+</span></code></pre>
+<p>If you use <em>git</em>, this is a good moment to initialize the repo and proceed with the initial commit.</p>
+<h4 id="run-the-development-server">Run the development server</h4>
+<p>Even if you haven't yet wrote any line of code, you can already use the Rails development server. Run the following command:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rails server
+</span><span>=&gt; Booting </span><span style="color:#bf616a;">WEBrick
+</span><span>=&gt; Rails </span><span style="color:#bf616a;">4.0.0</span><span> application starting in development on http://0.0.0.0:3000
+</span><span>=&gt; Run `</span><span style="color:#bf616a;">rails</span><span> server</span><span style="color:#bf616a;"> -h</span><span>` for more startup options
+</span><span>=&gt; Ctrl-C </span><span style="color:#bf616a;">to</span><span> shutdown server
+</span><span style="color:#bf616a;">[2013-06-14</span><span> 16:10:48] INFO WEBrick 1.3.1
+</span><span style="color:#bf616a;">[2013-06-14</span><span> 16:10:48] INFO ruby 1.9.3 (2012-04-20) </span><span style="color:#bf616a;">[x86_64-darwin12.2.0]
+</span><span style="color:#bf616a;">[2013-06-14</span><span> 16:10:48] INFO WEBrick::HTTPServer#start: pid=1174 port=3000
+</span><span style="color:#bf616a;">[...]
+</span></code></pre>
+<p>then point your browser to <a href="http://localhost:3000">http://localhost:3000</a> and you'll get a standard welcome page. This time we've used <code>rails server</code>, another useful command offered by Rails, moreover, it works only when you run it inside a Rails project folder. We'll see other useful commands later.</p>
+<h3 id="a-quick-introduction-to-mvc-patterns-and-rails">A quick introduction to MVC patterns and Rails</h3>
+<p>Rails is usually defined as an <em>MVC framework</em>. Basically, it means that the app behaviour is defined in this way:</p>
+<ul>
+<li><strong>Model:</strong> manages data between the rest of the application and the database. You can define how a single entity behaves, this includes data validation, before/after save hooks, etc...</li>
+<li><strong>Controller:</strong> this is the <em>glue</em> between the data managed by the Models and the rendered Views. Http requests that come to your app, are <em>routed</em> to a controller which usually will interact with one or more models and finally renders the ouput along with an Http response.</li>
+<li><strong>View:</strong> the final output for a request. It's usually a piece of HTML, but it might also be JSON or XML. We'll see this later.</li>
+</ul>
+<p>This is, of course, an over-simplification, but it should be enough to get a <em>vague idea</em> of how it works. I'll dive into some details later.</p>
+<h3 id="add-a-bookmark-resource">Add a Bookmark resource</h3>
+<p>The goal of our app is to manage bookmarks, right? So we create our <code>Bookmark</code> resource:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rails generate scaffold bookmark title:string url:string
+</span><span style="color:#bf616a;">invoke</span><span> active_record
+</span><span style="color:#bf616a;">create</span><span> db/migrate/20130614142337_create_bookmarks.rb
+</span><span style="color:#bf616a;">create</span><span> app/models/bookmark.rb
+</span><span style="color:#bf616a;">invoke</span><span> resource_route
+</span><span style="color:#bf616a;">route</span><span> resources :bookmarks
+</span><span style="color:#bf616a;">invoke</span><span> scaffold_controller
+</span><span style="color:#bf616a;">create</span><span> app/controllers/bookmarks_controller.rb
+</span><span style="color:#bf616a;">[...]
+</span></code></pre>
+<p>This time, we've used <code>rails generate</code>, one of the most useful commands. In this case, we've generated a <em>scaffold</em> that creates all the necessary files and code to automatically get a full <em>MVC</em> stack that manages a <em>Bookmark</em>. In the next paragraphs, we'll see in detail what did the above command.</p>
+<h4 id="database-migration">Database migration</h4>
+<p>We've specified that a <em>Bookmark</em> record is made of a <em>title</em> and a <em>url</em> fields, both of type <em>string</em> (255 chars by default). So, the rails scaffold generator has automatically created a <em>migration</em> script to update your database schema: <code>db/migrate/db/migrate/20130614142337_create_bookmarks.rb</code></p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CreateBookmarks </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ActiveRecord::Migration
+</span><span>  </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">change
+</span><span>    create_table </span><span style="color:#a3be8c;">:bookmarks </span><span style="color:#b48ead;">do </span><span>|</span><span style="color:#bf616a;">t</span><span>|
+</span><span>      t.string </span><span style="color:#a3be8c;">:title
+</span><span>      t.string </span><span style="color:#a3be8c;">:url
+</span><span>
+</span><span>      t.timestamps
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span>  </span><span style="color:#b48ead;">end
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>Even if it's almost easy to read, this code basically means:</p>
+<ul>
+<li>create a <code>bookmarks</code> table on database (note the pluralized form)</li>
+<li>it has the fields <code>title</code> and <code>url</code> of type string</li>
+<li>also add timestmps by default (this is automatically translated to <code>created_at</code> and <code>updated_at</code> datetime fields)</li>
+</ul>
+<p>However, your database still doesn't know about these changes to the schema, you need to run the migration task:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rake db:migrate
+</span><span>=</span><span style="color:#a3be8c;">= </span><span style="color:#bf616a;">CreateBookmarks:</span><span> migrating ================================================
+</span><span style="color:#bf616a;">--</span><span> create_table(:bookmarks)
+</span><span style="color:#bf616a;">-</span><span>&gt; </span><span style="color:#d08770;">0</span><span>.0011s
+</span><span>=</span><span style="color:#a3be8c;">= </span><span style="color:#bf616a;">CreateBookmarks:</span><span> migrated (0.0012s) =</span><span style="color:#a3be8c;">======================================
+</span></code></pre>
+<p><a href="http://rake.rubyforge.org">Rake</a> is another common and useful tool in the Ruby world. It acts like a <em>Makefile</em> in a Ruby fashion. Rails comes with several <em>rake</em> tasks ready to use (you can also create custom ones, if needed):</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rake</span><span style="color:#bf616a;"> -T
+</span><span style="color:#bf616a;">rake</span><span> about </span><span style="color:#65737e;"># List versions of all Rails frameworks and the environment
+</span><span style="color:#bf616a;">rake</span><span> assets:clean </span><span style="color:#65737e;"># Remove old compiled assets
+</span><span style="color:#bf616a;">rake</span><span> assets:clobber </span><span style="color:#65737e;"># Remove compiled assets
+</span><span style="color:#bf616a;">rake</span><span> assets:environment </span><span style="color:#65737e;"># Load asset compile environment
+</span><span style="color:#bf616a;">[...]
+</span></code></pre>
+<h4 id="the-boomark-model">The Boomark model</h4>
+<p>The model representing a <em>bookmark</em> was created in <code>app/models/bookmark.rb</code>, at the moment it's almost empty in terms of code, but it already knows how to behave with the database. To demonstrate this, we'll use another Rails command to open a <em>console</em>:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rails console
+</span><span style="color:#bf616a;">Loading</span><span> development environment (Rails 4.0.0)
+</span><span>
+</span><span>&gt;
+</span></code></pre>
+<p>Now, we have a shell to manually issue commands to our rails app. Let's see if it knows something about our <em>Bookmark</em>:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span>&gt; Bookmark
+</span><span>&gt; =&gt; Bookmark(</span><span style="color:#bf616a;">id:</span><span> integer, title: string, url: string, created_at: datetime, updated_at: datetime)
+</span><span>
+</span><span>&gt; Bookmark.count
+</span><span>
+</span><span>     (</span><span style="color:#bf616a;">0.3ms</span><span>)  SELECT COUNT(*) </span><span style="color:#bf616a;">FROM </span><span>&quot;</span><span style="color:#a3be8c;">bookmarks</span><span>&quot;
+</span><span>
+</span><span>=&gt; </span><span style="color:#d08770;">0
+</span></code></pre>
+<p>It knows about the <em>bookmarks</em> table, its fields and how to query the database. Ok, create one <em>Bookmark</em>:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span>&gt; Bookmark.create(</span><span style="color:#bf616a;">title: </span><span>&quot;</span><span style="color:#a3be8c;">Hello Bookmarks app!</span><span>&quot;, url: &quot;</span><span style="color:#a3be8c;">http://localhost:3000</span><span>&quot;)
+</span><span>&gt; (</span><span style="color:#bf616a;">0.1ms</span><span>) begin transaction
+</span><span>&gt; SQL (</span><span style="color:#bf616a;">7.7ms</span><span>) INSERT INTO &quot;</span><span style="color:#a3be8c;">bookmarks</span><span>&quot; (&quot;</span><span style="color:#a3be8c;">created_at</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">title</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">updated_at</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">url</span><span>&quot;) </span><span style="color:#bf616a;">VALUES</span><span> (?, ?, ?, ?) </span><span style="color:#bf616a;">[[</span><span>&quot;</span><span style="color:#a3be8c;">created_at</span><span>&quot;</span><span style="color:#bf616a;">,</span><span> Fri, 14 Jun 2013 15:16:17 UTC +00:00], </span><span style="color:#b48ead;">[</span><span>&quot;</span><span style="color:#a3be8c;">title</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">Hello Bookmarks app!</span><span>&quot;</span><span style="color:#b48ead;">]</span><span>, </span><span style="color:#b48ead;">[</span><span>&quot;</span><span style="color:#a3be8c;">updated_at</span><span>&quot;, Fri, 14 Jun 2013 15:16:17 UTC +00:00</span><span style="color:#b48ead;">]</span><span>, </span><span style="color:#b48ead;">[</span><span>&quot;</span><span style="color:#a3be8c;">url</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">http://localhost:3000</span><span>&quot;</span><span style="color:#b48ead;">]</span><span>]
+</span><span>&gt; (</span><span style="color:#bf616a;">0.8ms</span><span>) commit transaction
+</span><span>&gt; =&gt; </span><span style="color:#65737e;">#&lt;Bookmark id: 1, title: &quot;Hello Bookmarks app!&quot;, url: &quot;http://localhost:3000&quot;, created_at: &quot;2013-06-14 15:16:17&quot;, updated_at: &quot;2013-06-14 15:16:17&quot;
+</span><span>
+</span><span>&gt; Bookmark.count
+</span><span>  (</span><span style="color:#bf616a;">0.3ms</span><span>)  SELECT COUNT(*) </span><span style="color:#bf616a;">FROM </span><span>&quot;</span><span style="color:#a3be8c;">bookmarks</span><span>&quot;
+</span><span>
+</span><span>=&gt; </span><span style="color:#d08770;">1
+</span></code></pre>
+<h4 id="the-bookmarkscontroller-and-its-views">The BookmarksController and its views</h4>
+<p>We said that the <em>scaffold generator</em> has created all the parts of the MVC stack, now is the time for the controller in <code>app/controllers/bookmarks_controller.rb</code>. You'll see a <code>BookmarksController</code> class and a bunch of methods (called <em>actions</em>). Each action corresponds to an HTTP PATH (eg: <code>/bookmarks</code>) and an HTTP verb (GET, POST, PUT, DELETE).</p>
+<p>The autogenerated code is quite clear and, for brevity reasons, I can't dive too much in it. The interesting parts are:</p>
+<ul>
+<li>nowhere in the code is specified how to render views. There's a reason for that: html views are based on the controller's actions names. For example, <code>BookmarksController#show</code> will render a template placed in <code>app/views/bookmarks/show.html.erb</code>. Of course, only the actions that respond to <em>HTTP GET</em> have a template, the rest are usually redirects. Check yourself the contents in <code>app/views/bookmarks/</code> to get an idea.</li>
+<li>it looks like there's some automagical <em>JSON</em> support. That's true, rails supports <em>HTML</em> and <em>JSON</em> request by default, I'll show you this later.</li>
+</ul>
+<h4 id="routes">Routes</h4>
+<p>The final component for the <em>MVC</em> stack is about routing the <em>HTTP</em> requests to the proper controller and action. To make this, the Rails generator has updated <code>config/routes.rb</code> file and has added the line <code>resources :bookmarks</code> that is a shorthand to say: <em>use <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a> routes for the the resource bookmark</em>. If you're wondering <em>what</em> routes, you can use the relative <em>rake task</em>:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rake routes
+</span><span style="color:#bf616a;">Prefix</span><span> Verb URI Pattern Controller#Action
+</span><span style="color:#bf616a;">bookmarks</span><span> GET /bookmarks(.:format) </span><span style="color:#bf616a;">bookmarks#index
+</span><span style="color:#bf616a;">POST</span><span> /bookmarks(.:format) </span><span style="color:#bf616a;">bookmarks#create
+</span><span style="color:#bf616a;">new_bookmark</span><span> GET /bookmarks/new(.:format) </span><span style="color:#bf616a;">bookmarks#new
+</span><span style="color:#bf616a;">edit_bookmark</span><span> GET /bookmarks/:id/edit(.:format) </span><span style="color:#bf616a;">bookmarks#edit
+</span><span style="color:#bf616a;">bookmark</span><span> GET /bookmarks/:id(.:format) </span><span style="color:#bf616a;">bookmarks#show
+</span><span style="color:#bf616a;">PATCH</span><span> /bookmarks/:id(.:format) </span><span style="color:#bf616a;">bookmarks#update
+</span><span style="color:#bf616a;">PUT</span><span> /bookmarks/:id(.:format) </span><span style="color:#bf616a;">bookmarks#update
+</span><span style="color:#bf616a;">DELETE</span><span> /bookmarks/:id(.:format) </span><span style="color:#bf616a;">bookmarks#destroy
+</span></code></pre>
+<h4 id="try-on-the-server">Try on the server</h4>
+<p>Now, the fun part. Restart your rails server with <code>rails server</code> and go to <a href="http://localhost:3000/bookmarks">http://localhost:3000/bookmarks</a>. If you followed the above example in console, you should already see the Bookmark created earlier, otherwise, you can create a new one by clicking on <em>New bookmark</em> link.</p>
+<p>Try <a href="http://localhost:3000/bookmarks.json">http://localhost:3000/bookmarks.json</a> and see what you'll get. You still haven't written a single line of Ruby, and it already does a lot of things. Awesome, isn't it? :-)</p>
+<h3 id="adding-users-and-authentication">Adding users and authentication</h3>
+<p>Once we have the <em>Bookmark</em> resource, we need <em>Users</em> that own bookmarks and a way to authenticate them. The Ruby and Rails community is very active: whatever the task is, you'll probably find at least one gem to do it (if you don't, it might be a good idea to write one). Luckily, user authentication is a very common task, and there are several options. The most used is <a href="https://github.com/plataformatec/devise">Devise</a>, let's use it.</p>
+<h4 id="installing-devise-gem">Installing Devise gem</h4>
+<p>Open <code>Gemfile</code> and add this line:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">devise</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">~&gt; 3.0.0.rc</span><span>&#39;
+</span></code></pre>
+<p>We also told Bundler to use a version of Devise that should be <em>greater_or_equal</em> than its <em>minor version</em> (eg: 3.0.1 is ok, 3.1.0 isn't).</p>
+<p>Run <code>bundle install</code> to install the gem:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % bundle install
+</span><span style="color:#bf616a;">Resolving</span><span> dependencies...
+</span><span style="color:#bf616a;">Using</span><span> rake (10.0.4)
+</span><span style="color:#bf616a;">[...]
+</span><span style="color:#bf616a;">Installing</span><span> devise (3.0.0.rc)
+</span><span style="color:#bf616a;">[...]
+</span><span style="color:#bf616a;">Your</span><span> bundle is complete!
+</span><span style="color:#bf616a;">Use </span><span>`</span><span style="color:#bf616a;">bundle</span><span> show </span><span style="color:#b48ead;">[</span><span>gemname</span><span style="color:#b48ead;">]</span><span>` to see where a bundled gem is installed.
+</span><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks %
+</span></code></pre>
+<p>and run the Devise generator:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rails generate devise:install
+</span><span style="color:#bf616a;">create</span><span> config/initializers/devise.rb
+</span><span style="color:#bf616a;">create</span><span> config/locales/devise.en.yml
+</span><span>=</span><span style="color:#a3be8c;">==============================================================================
+</span><span>
+</span><span style="color:#bf616a;">Some</span><span> setup you must do manually if you haven&#39;</span><span style="color:#a3be8c;">t yet:
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">1. Ensure you have defined default url options in your environments files. Here
+</span><span style="color:#a3be8c;">   is an example of default_url_options appropriate for a development environment
+</span><span style="color:#a3be8c;">   in config/environments/development.rb:
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">   config.action_mailer.default_url_options = { :host =&gt; &quot;localhost:3000&quot; }
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">   In production, :host should be set to the actual host of your application.
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">2. Ensure you have defined root*url to \_something* in your config/routes.rb.
+</span><span style="color:#a3be8c;">   For example:
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">   root :to =&gt; &quot;home#index&quot;
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+</span><span style="color:#a3be8c;">   For example:
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">     &lt;p class=&quot;notice&quot;&gt;&lt;%= notice %&gt;&lt;/p&gt;
+</span><span style="color:#a3be8c;">     &lt;p class=&quot;alert&quot;&gt;&lt;%= alert %&gt;&lt;/p&gt;
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">4. If you are deploying Rails 3.1+ on Heroku, you may want to set:
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">   config.assets.initialize_on_precompile = false
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">   On config/application.rb forcing your application to not access the DB
+</span><span style="color:#a3be8c;">   or load models when precompiling your assets.
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">5. You can copy Devise views (for customization) to your app by running:
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">   rails g devise:views
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">===============================================================================
+</span><span style="color:#a3be8c;">andrea@mbair ~/Works/12dos/bookmarks %
+</span></code></pre>
+<p>As you can see, it has created two files under <code>config/</code> directory:</p>
+<ul>
+<li><code>config/initializers/devise.rb</code>: here you can change several Devise settings. However, we'll use defaults because are enough.</li>
+<li><code>config/locales/devise.en.yml</code>: this file contains i18n translations for Devise. Please note that <code>config/locales/</code> is the default path to put all the locales for a Rails app.</li>
+</ul>
+<p>Devise also told us to check five steps to complete the setup:</p>
+<ul>
+<li>add <code>config.action_mailer.default_url_options = { :host =&gt; 'localhost:3000' }</code> to <code>config/environments/development.rb</code></li>
+<li>define a <em>root_url</em> in <code>config/routes.rb</code>. Fow now, we can achieve this by pointing <code>BookmarksController#index</code> to the root of the site:</li>
+</ul>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#ebcb8b;">Bookmarks</span><span>::</span><span style="color:#ebcb8b;">Application</span><span>.routes.draw </span><span style="color:#b48ead;">do
+</span><span>  </span><span style="color:#65737e;"># [...]
+</span><span>
+</span><span>  root &#39;</span><span style="color:#a3be8c;">bookmarks#index</span><span>&#39;
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># [...]
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<ul>
+<li>
+<p>add the two pieces of html in <code>app/views/layouts/application.html.erb</code>. This file is the main layout your Rails app.</p>
+</li>
+<li>
+<p>skip the fourth step because we're running a Rails v4.0.x app, not a 3.1.x one)</p>
+</li>
+<li>
+<p>generate the Devise default views with <code>rails generate devise:views</code>. They contain a basic scaffold to get Devise work (eg: login/signup forms, etc...). Please note that Devise has several features concerning user authentication and registration, but we're going to use only a small set of them, so don't panic if you see a lot of generated views.</p>
+</li>
+</ul>
+<h4 id="generate-a-user-model">Generate a User model</h4>
+<p>Setup for Devise is done, but we still haven't a <em>User</em> model, we need to create one:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">andrea@mbair ~</span><span>/Works/12dos/bookmarks % rails generate devise User
+</span><span style="color:#bf616a;">invoke</span><span> active_record
+</span><span style="color:#bf616a;">create</span><span> db/migrate/20130617132545_devise_create_users.rb
+</span><span style="color:#bf616a;">create</span><span> app/models/user.rb
+</span><span style="color:#bf616a;">insert</span><span> app/models/user.rb
+</span><span style="color:#bf616a;">route</span><span> devise_for :users
+</span></code></pre>
+<p>If you remember the scaffold generator we used to generate a <em>Bookmark</em>, this one is very similar even if just focused on the model, plus the route that tells Devise to handle <code>/users/*</code> paths. In fact, it created a migration for users and the <em>User</em> class. Edit the migration to look like this (remove or comment the rest):</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">DeviseCreateUsers </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ActiveRecord::Migration
+</span><span>  </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">change
+</span><span>    create_table(</span><span style="color:#a3be8c;">:users</span><span>) </span><span style="color:#b48ead;">do </span><span>|</span><span style="color:#bf616a;">t</span><span>|
+</span><span>      </span><span style="color:#65737e;">## Database authenticatable
+</span><span>      t.string </span><span style="color:#a3be8c;">:email</span><span>, </span><span style="color:#a3be8c;">:null </span><span>=&gt; </span><span style="color:#d08770;">false</span><span>, </span><span style="color:#a3be8c;">:default </span><span>=&gt; &quot;&quot;
+</span><span>      t.string </span><span style="color:#a3be8c;">:encrypted_password</span><span>, </span><span style="color:#a3be8c;">:null </span><span>=&gt; </span><span style="color:#d08770;">false</span><span>, </span><span style="color:#a3be8c;">:default </span><span>=&gt; &quot;&quot;
+</span><span>
+</span><span>      </span><span style="color:#65737e;">## Rememberable
+</span><span>      t.datetime </span><span style="color:#a3be8c;">:remember_created_at
+</span><span>
+</span><span>      t.timestamps
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span>
+</span><span>    add_index </span><span style="color:#a3be8c;">:users</span><span>, </span><span style="color:#a3be8c;">:email</span><span>, </span><span style="color:#a3be8c;">:unique </span><span>=&gt; </span><span style="color:#d08770;">true
+</span><span>  </span><span style="color:#b48ead;">end
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>Also the model needs to reflect the changes made to the migration:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">User </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ActiveRecord::Base
+</span><span>  devise </span><span style="color:#a3be8c;">:database_authenticatable</span><span>, </span><span style="color:#a3be8c;">:registerable</span><span>, </span><span style="color:#a3be8c;">:rememberable</span><span>, </span><span style="color:#a3be8c;">:validatable
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>The last step, is to run the migration with <code>rake db:migrate</code></p>
+<p>In this way, we have a simple authentication system that lets a user to register, login and logout. Try to run <code>rake routes</code> and you'll see the new routes for these actions, all referred to <em>users</em>. You can also play in the Rails console to create some user.</p>
+<h4 id="user-has-many-bookmarks">User has many Bookmarks</h4>
+<p>Now that we have <em>User</em> and <em>Bookmark</em>, we need to <em>associate</em> them. In this case, it's a <em>one to many</em> relation. As a shared convention, foreign keys name are made of the model name suffixed by _id. Of course, we'll not change the already created migrations, instead, we're going to create a new one:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rails</span><span> generate migration AddUserIdToBookmark user_id:integer
+</span></code></pre>
+<p>Choosing an appropriate, arbitrary name is not mandatory, but it's a <em>best practice</em> that you should follow. Our generated migration will add a <em>user_id</em> integer column to the <em>bookmarks</em> table. Also, feel free to run the migration now.</p>
+<p>At the moment, no one of our two rails models knows about each other, we've only added a field on the database, but it's meaningless without some additional instruction:</p>
+<ul>
+<li>add <code>has_many :bookmarks</code> to <code>app/models/user.rb</code></li>
+<li>add <code>belongs_to :user</code> to <code>app/models/bookmark.rb</code></li>
+</ul>
+<p>With these changes, a <code>User</code> instance will automatically have a <code>bookmarks</code> method (and many others), referred to all <em>Bookmark</em> records with that specific <em>user id</em>.</p>
+<h4 id="require-authentication-to-manage-your-bookmarks">Require authentication to manage your bookmarks</h4>
+<p>Looking at the models, it looks like the <em>data part</em> is complete and working. However, the <code>BookmarksController</code> created by the scaffold command doesn't apply any authentication check, it needs some fix.</p>
+<p>First of all, check user authentication before executing whatever action:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">BookmarksController </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ApplicationController
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># other before_actions
+</span><span>
+</span><span>  before_action </span><span style="color:#a3be8c;">:authenticate_user!
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># [...] actions
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>This means that, from now, each request that arrives to the <code>BookmarksController</code> will first check if a user is authenticated (<code>authenticate_user!</code> is a method provided by Devise), otherwise it will be redirected to the login page.</p>
+<p>Then, access only bookmarks owned by the authenticated user. To do this, replace <code>Bookmark</code> occurrencies with <code>current_user.bookmarks</code>. As you may wonder, <code>current_user</code> is an object provided by Devise that represents the authenticated user, while <code>.bookmarks</code> is the method provided by the model association between <em>User</em> and <em>Bookmark</em> models.</p>
+<h4 id="try-on-the-server-1">Try on the server</h4>
+<p>If you didn't played with the web interface yet, now it's a good time to do it. Here there're some hints:</p>
+<ul>
+<li>go to <a href="http://localhost:3000">http://localhost:3000</a>, it should redirect to <a href="http://localhost:3000/users/sign_in">http://localhost:3000/users/sign_in</a>, the login page;</li>
+<li>if you haven't registered any user, then go to <a href="http://localhost:3000/users/sign_up">http://localhost:3000/users/sign_up</a> and register a new one;</li>
+<li>retry to go to <a href="http://localhost:3000/">http://localhost:3000/</a> again, it will work as well as going to <a href="http://localhost:3000/bookmarks">http://localhost:3000/bookmarks</a> because they're the same action;</li>
+<li>create some bookmarks from <a href="http://localhost:3000/bookmarks/new">http://localhost:3000/bookmarks/new</a>.</li>
+</ul>
+<h3 id="handling-wrong-inputs">Handling wrong inputs</h3>
+<p>At the moment, we have several areas where a wrong user input might damage you application:</p>
+<ul>
+<li>providing incomplete or malformed data when creating a new Bookmark</li>
+<li>requesting a bookmark id that doesn't exist as a record on the database, for example by visiting <a href="http://localhost:3000/bookmarks/111">http://localhost:3000/bookmarks/111</a>, will cause an error in your app, very ugly to see.</li>
+</ul>
+<p>Let's see how to solve these issues.</p>
+<h4 id="model-validations">Model validations</h4>
+<p>If you tried to use a password shorter than 8 chars or a bad formatted email during user registrations, you'd note that Devise has spotted those errors by not saving the record and rendering the user registration form again. In fact, Devise provided some default validations for users, but our app need validations on the <code>Bookmark</code> model too. Change <code>app/models/bookmark.rb</code> to look like this:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Bookmark </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ActiveRecord::Base
+</span><span>  belongs_to </span><span style="color:#a3be8c;">:user
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># ensure that a user_id is present
+</span><span>  validates </span><span style="color:#a3be8c;">:user_id</span><span>, </span><span style="color:#a3be8c;">presence: </span><span style="color:#d08770;">true
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># ensure that title is present and at least 10 chars long
+</span><span>  validates </span><span style="color:#a3be8c;">:title</span><span>, </span><span style="color:#a3be8c;">length: </span><span>{ </span><span style="color:#a3be8c;">minimum: </span><span style="color:#d08770;">10 </span><span>}, </span><span style="color:#a3be8c;">presence: </span><span style="color:#d08770;">true
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># ensure the url is present, and respects the URL format for http/https
+</span><span>  validates </span><span style="color:#a3be8c;">:url</span><span>, </span><span style="color:#a3be8c;">format: </span><span>{</span><span style="color:#a3be8c;">with: </span><span style="color:#ebcb8b;">Regexp</span><span>.</span><span style="color:#8fa1b3;">new</span><span>(</span><span style="color:#ebcb8b;">URI</span><span>::regexp(%w(</span><span style="color:#a3be8c;">http https</span><span>)))}, </span><span style="color:#a3be8c;">presence: </span><span style="color:#d08770;">true
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>These validations are self-explanatory, so I'll not dive into them. Just keep in mind that there are many others or, in case, you can create custom ones.</p>
+<h4 id="when-a-resource-is-not-found">When a resource is not found...</h4>
+<p>The second problem we addressed is about passing a wrong/non-existent identifier for a given resource. You can handle it in many ways, perhaps the simplest (and laziest) one is to redirect to the index, with a <em>flash message</em>. To do this, we only need to change some line of code in <code>BookmarksController</code>:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">BookmarksController </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ApplicationController
+</span><span>
+</span><span>  </span><span style="color:#65737e;"># [...] other code here
+</span><span>
+</span><span>  </span><span style="color:#8fa1b3;">private </span><span style="color:#65737e;"># Use callbacks to share common setup or constraints between actions.
+</span><span>
+</span><span>  </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">set_bookmark
+</span><span>    </span><span style="color:#b48ead;">unless </span><span>@</span><span style="color:#bf616a;">bookmark </span><span>= current_user.bookmarks.where(</span><span style="color:#a3be8c;">id:</span><span> params[</span><span style="color:#a3be8c;">:id</span><span>]).first
+</span><span>      flash[</span><span style="color:#a3be8c;">:alert</span><span>] = &#39;</span><span style="color:#a3be8c;">Bookmark not found.</span><span>&#39;
+</span><span>      redirect_to root_url
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span>  </span><span style="color:#b48ead;">end
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>The <code>set_bookmark</code> is a method called in a <em>before_action</em> only for actions that need a resource id (show, edit, update, destroy). The new lines will safely check for existence on database, otherwise the user will be redirected to the root path of the site, with a short flash message.</p>
+<h3 id="improving-the-app-one-step-at-a-time">Improving the app one step at a time</h3>
+<p>Our app is almost complete, or at leats, it lacks several little details that make a difference. We'll try to address some of these. The goal, is to demostrate how to improve an existing app with small steps.</p>
+<h4 id="add-a-better-root-page">Add a better root page</h4>
+<p>This is a simple task. All we need is a new route, controller and view. This time, we'll use a generator dedicated to the controller:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rails</span><span> generate controller site index
+</span></code></pre>
+<p>I've omitted the output because at the moment you should already guess what it did. In short, it has created a <code>SiteController</code> with an action called <code>index</code>, plus the related view in <code>app/views/site/index.html.erb</code> and a new route in <code>config/routes.rb</code>. However, the route should be changed to reflect our goal:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#ebcb8b;">Bookmarks</span><span>::</span><span style="color:#ebcb8b;">Application</span><span>.routes.draw
+</span><span>
+</span><span style="color:#65737e;"># [...] other routes
+</span><span>
+</span><span style="color:#65737e;"># Comment/remove these lines
+</span><span>
+</span><span style="color:#65737e;"># get &quot;site/index&quot;
+</span><span>
+</span><span style="color:#65737e;"># root &#39;bookmarks#index&#39;
+</span><span>
+</span><span style="color:#65737e;"># Use this
+</span><span>
+</span><span>root &#39;</span><span style="color:#a3be8c;">site#index</span><span>&#39;
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>If you try to load <a href="http://localhost:3000">http://localhost:3000</a> you'll see the empty template of <code>app/views/site/index.html.erb</code>. To render content, we need to change the controller in <code>app/controllers/site_controller.rb</code>:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">SiteController </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">ApplicationController
+</span><span>  </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">index
+</span><span>    </span><span style="color:#65737e;"># retrieve all Bookmarks ordered by descending creation timestamp
+</span><span>    @</span><span style="color:#bf616a;">bookmarks </span><span>= </span><span style="color:#ebcb8b;">Bookmark</span><span>.order(&#39;</span><span style="color:#a3be8c;">created_at desc</span><span>&#39;)
+</span><span>  </span><span style="color:#b48ead;">end
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>while the view in <code>app/views/site/index.html.erb</code>, might contain this basic markup as a starting point:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;h2&gt;Latest Bookmarks&lt;/h2&gt;
+</span><span>&lt;table style=&quot;width: 100%&quot;&gt;
+</span><span>  &lt;thead&gt;
+</span><span>    &lt;tr&gt;
+</span><span>      &lt;th&gt;Url&lt;/th&gt;
+</span><span>    &lt;/tr&gt;
+</span><span>  &lt;/thead&gt;
+</span><span>
+</span><span>  &lt;tbody&gt;
+</span><span>  &lt;% @bookmarks.each do |bookmark| %&gt;
+</span><span>    &lt;tr&gt;
+</span><span>      &lt;td&gt;&lt;%= link_to bookmark.title, bookmark.url %&gt;&lt;/td&gt;
+</span><span>    &lt;/tr&gt;
+</span><span>  &lt;% end %&gt;
+</span><span>  &lt;/tbody&gt;
+</span><span>&lt;/table&gt;
+</span></code></pre>
+<p>Again, note how the controller processes the request by retrieving some records from the database through the model <code>Bookmark</code>, then renders its view that contains the proper data to show the bookmarks.</p>
+<h4 id="prettier-gui">Prettier GUI</h4>
+<p>Being a programmer, I haven't too much skills in design and layouts, but there are several CSS frameworks that help a lot. Instead of picking the famous <a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a>, I chose <a href="http://foundation.zurb.com">ZURB Foundation</a>, just to be fancy. There are a lot of ways to integrate existing CSS/Javascript frameworks and libraries inside a Rails app, the simplest one, is to use a gem when possible. Luckily, there's one for Zurb Foundation, just add it to your Gemfile:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">zurb-foundation</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">~&gt; 4.2.2</span><span>&#39;
+</span></code></pre>
+<p>run <code>bundle install</code>, plus its install generator:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rails</span><span> generate foundation:install
+</span></code></pre>
+<p>this command, will ask you to overwrite your default application layout in <code>app/views/layouts/application.html.erb</code>, press <em>Y</em> without worries. For brevity reasons, I've put the contents of the file <a href="https://gist.github.com/andreapavoni/87e2c7261abeeb1ccf9d">here</a>.</p>
+<p>Moreover, we can also remove old scaffold's stylesheets:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rm</span><span> app/assets/stylesheets/scaffolds.css.scss
+</span></code></pre>
+<h4 id="prettier-forms">Prettier forms</h4>
+<p>Forms are still ugly and boring to write, so we'll use <a href="https://github.com/plataformatec/simple_form">another useful gem</a> (from the same authors of <em>Devise</em>) to mitigate the problem. Add it to your Gemfile:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#8fa1b3;">gem </span><span>&#39;</span><span style="color:#a3be8c;">simple_form</span><span>&#39;</span><span style="color:#8fa1b3;">, </span><span>&#39;</span><span style="color:#a3be8c;">~&gt; 3.0.0.rc</span><span>&#39;
+</span></code></pre>
+<p>run <code>bundle install</code> and the install generator (note that it already supports Foundation's markup structure):</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rails</span><span> generate simple_form:install</span><span style="color:#bf616a;"> --foundation
+</span></code></pre>
+<p>We'll also re-generate <em>Devise</em> views, because it supports <em>SimpleForm</em>:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">rails</span><span> generate devise:views
+</span></code></pre>
+<p>The generator will ask you if you want to overwrite existent files, press <em>Y</em> because that's what we really want.</p>
+<p>The last step is to fix the <em>Bookmarks</em> form, it wasn't updated by the other generators, we'll do it manually by overwriting its (partial) template in <code>app/views/bookmarks/_form.html.erb</code> with the following content:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;%= simple_form_for(@bookmark) do |f| %&gt;
+</span><span>  &lt;%= f.error_notification %&gt;
+</span><span>  &lt;div class=&quot;form-inputs&quot;&gt;
+</span><span>    &lt;%= f.input :title %&gt;
+</span><span>    &lt;%= f.input :url %&gt;
+</span><span>  &lt;/div&gt;
+</span><span>
+</span><span>  &lt;div class=&quot;form-actions&quot;&gt;
+</span><span>    &lt;%= f.button :submit %&gt;
+</span><span>  &lt;/div&gt;
+</span><span>&lt;% end %&gt;
+</span></code></pre>
+<h4 id="a-welcome-page">A welcome page</h4>
+<p>It would be <em>professional</em> to show a welcome page for non-registered users. To keep things simple, I'll use the same <code>SiteController#index</code> used for the root page. Modify <code>app/views/site/index.html.erb</code> to look like <a href="https://gist.github.com/andreapavoni/98eeca9a0979c5802eb3">this</a>.</p>
+<h3 id="conclusions">Conclusions</h3>
+<p>Congratulations! If you carefully followed all the steps, you should have a basic, yet working, Ruby On Rails app. Of course, this is only the <em>tip of the iceberg</em>: for brevity reasons, I've oversimplified some concepts, and I've skipped several important aspects (eg: using CSS/SASS and Javascript/Coffeescript, testing, deploy, etc...) that you should know if you want to be a proficient Ruby On Rails developer. However, as you can see, this happened to be already a huge article, at least in terms of lenght :-P</p>
+<p>I've uploaded the <em>complete app</em> on github: <a href="https://github.com/andreapavoni/12dos-bookmarks">https://github.com/andreapavoni/12dos-bookmarks</a>. It's a bit different from the one we wrote here, but it also adds some more features:</p>
+<ul>
+<li>pagination with <a href="https://github.com/amatsuda/kaminari">kaminari</a> gem</li>
+<li>use <em>profile pages</em> to show single user's bookmarks</li>
+</ul>
+<p>Clone or fork the code and experiment with it.</p>
+<h3 id="webography">Webography</h3>
+<ul>
+<li><a href="http://guides.rubyonrails.org">http://guides.rubyonrails.org</a>: official documentation and guides</li>
+<li><a href="http://railscasts.com">http://railscasts.com</a>: videos (and transcripts)</li>
+<li><a href="http://www.ruby-lang.org/en/documentation/">http://www.ruby-lang.org/en/documentation</a>: Ruby's official documentation</li>
+<li><a href="https://www.ruby-toolbox.com">https://www.ruby-toolbox.com</a>: a place where to find gems for your tasks</li>
+</ul>
+<h3 id="bibliography">Bibliography</h3>
+<ul>
+<li><a href="http://pragprog.com/book/ruby4/programming-ruby-1-9-2-0">Programming Ruby 1.9 &amp; 2.0 (4th edition): The Pragmatic Programmers' Guide</a></li>
+<li><a href="http://pragprog.com/book/rails4/agile-web-development-with-rails-4">Agile Web Development with Rails 4</a></li>
+<li><a href="http://pragprog.com/book/jvrails2/crafting-rails-4-applications">Crafting Rails 4 Applications: Expert Practices for Everyday Rails Development</a></li>
+<li><a href="https://leanpub.com/tr4w">The Rails 4 Way</a></li>
+</ul>
+ </main>
+    <footer class="root">
+      <section class="container">
+        <small
+          >built with <i class="hearth">&#10084;</i> by Andrea
+          <i>pavonz</i> Pavoni &copy;2010-2022</small
+        >
+      </section>
+    </footer>
+    <script
+      data-goatcounter="https://pavonz.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </body>
+</html>

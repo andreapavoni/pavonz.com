@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pavonz.com</title>
+    <link rel="stylesheet" href="https://pavonz.com/app.css" />
+  </head>
+  <body>
+    <header class="root">
+      <section class="container">
+        <nav>
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog">blog</a></li>
+          </ul>
+        </nav>
+        <h1><a href="/">~/pavonz</a></h1>
+      </section>
+    </header>
+
+    <main class="container">
+<h1 class="title">Rails4 StrongParameters with Devise and multiple resources</h1>
+<p class="subtitle"><strong>2013-03-27</strong></p>
+<p>First of all, we override the controllers where we need to explicitly authorize params, in this case <code>PasswordsController</code> and <code>RegistrationsController</code> should accept <code>email</code>, <code>password</code> and <code>password_confirmation</code> by default:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#65737e;"># app/controllers/custom_devise/password_controller.rb
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CustomDevise::PasswordsController </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">Devise::PasswordsController
+</span><span>  </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">resource_params
+</span><span>    params.</span><span style="color:#8fa1b3;">require(resource_name).permit(</span><span style="color:#a3be8c;">:email</span><span style="color:#8fa1b3;">, </span><span style="color:#a3be8c;">:password</span><span style="color:#8fa1b3;">, </span><span style="color:#a3be8c;">:password_confirmation</span><span style="color:#8fa1b3;">)
+</span><span>  </span><span style="color:#b48ead;">end
+</span><span>  </span><span style="color:#8fa1b3;">private </span><span style="color:#a3be8c;">:resource_params
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#65737e;"># app/controllers/custom_devise/registrations_controller.rb
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CustomDevise::RegistrationsController </span><span style="color:#eff1f5;">&lt; </span><span style="color:#a3be8c;">Devise::RegistrationsController
+</span><span>  </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">resource_params
+</span><span>    params.</span><span style="color:#8fa1b3;">require(resource_name).permit(</span><span style="color:#a3be8c;">:name</span><span style="color:#8fa1b3;">, </span><span style="color:#a3be8c;">:email</span><span style="color:#8fa1b3;">, </span><span style="color:#a3be8c;">:password</span><span style="color:#8fa1b3;">, </span><span style="color:#a3be8c;">:password_confirmation</span><span style="color:#8fa1b3;">)
+</span><span>  </span><span style="color:#b48ead;">end
+</span><span>  </span><span style="color:#8fa1b3;">private </span><span style="color:#a3be8c;">:resource_params
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>Then, we need to tell Devise to use these controllers instead of the default ones:</p>
+<pre data-lang="ruby" style="background-color:#2b303b;color:#c0c5ce;" class="language-ruby "><code class="language-ruby" data-lang="ruby"><span style="color:#65737e;"># config/routes.rb
+</span><span>
+</span><span>devise_for </span><span style="color:#a3be8c;">:users</span><span>, </span><span style="color:#a3be8c;">controllers: </span><span>{
+</span><span>  </span><span style="color:#a3be8c;">registrations: </span><span>&quot;</span><span style="color:#a3be8c;">custom_devise/registrations</span><span>&quot;,
+</span><span>  </span><span style="color:#a3be8c;">passwords: </span><span>&quot;</span><span style="color:#a3be8c;">custom_devise/passwords</span><span>&quot;
+</span><span>}
+</span><span>
+</span><span>devise_for </span><span style="color:#a3be8c;">:admins</span><span>, </span><span style="color:#a3be8c;">controllers: </span><span>{
+</span><span>  </span><span style="color:#a3be8c;">registrations: </span><span>&quot;</span><span style="color:#a3be8c;">custom_devise/registrations</span><span>&quot;,
+</span><span>  </span><span style="color:#a3be8c;">passwords: </span><span>&quot;</span><span style="color:#a3be8c;">custom_devise/passwords</span><span>&quot;
+</span><span>}
+</span></code></pre>
+<p>enjoy :-)</p>
+ </main>
+    <footer class="root">
+      <section class="container">
+        <small
+          >built with <i class="hearth">&#10084;</i> by Andrea
+          <i>pavonz</i> Pavoni &copy;2010-2022</small
+        >
+      </section>
+    </footer>
+    <script
+      data-goatcounter="https://pavonz.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </body>
+</html>
